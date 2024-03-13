@@ -26,8 +26,8 @@ public abstract class Visual extends PApplet
 	public void startMinim() 
 	{
 		minim = new Minim(this);
-		ap = minim.loadFile("Renai Circulation恋愛サーキュレーション歌ってみたなみりん.mp3", 1024);
-        ap.play();
+		//ap = minim.loadFile("Renai Circulation恋愛サーキュレーション歌ってみたなみりん.mp3", 1024);
+        //ap.play();
 
 		fft = new FFT(frameSize, sampleRate);
 
