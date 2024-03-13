@@ -1,8 +1,8 @@
 # Music Visualiser Project
 
-Name:
+Name:Seán Flood, Ralph Cruz
 
-Student Number: 
+Student Number: C22421292, _________
 
 ## Instructions
 - Fork this repository and use it a starter project for your assignment
