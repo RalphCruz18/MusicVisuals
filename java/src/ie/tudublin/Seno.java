@@ -2,9 +2,9 @@ package ie.tudublin;
 
 public class Seno extends Visual {
 
-    private float sX = -50;
+    private float sX = -100;
     private float nX;
-    private final float textSpeed = 25;
+    private final float textSpeed = 45;
     private boolean seInPlace = false; // Checks if SE is in place
     private boolean displayStarted = false;
     private int displayStartTime;
@@ -12,7 +12,8 @@ public class Seno extends Visual {
 
     public void settings() 
     {
-        size(800, 800, P3D);
+        size(1000, 800, P3D);
+        //fullScreen(P3D, SPAN);
     }
 
     public void keyPressed() 
@@ -31,7 +32,7 @@ public class Seno extends Visual {
         loadAudio("Renai Circulation恋愛サーキュレーション歌ってみたなみりん.mp3");
         getAudioPlayer().play();
 
-        textSize(170); // Set the text size for width calculation
+        textSize(270); // Set the text size for width calculation
 
         float textWidthNO = textWidth("NO");
         nX = width + textWidthNO; // Start "NO" off-screen to the right
@@ -49,9 +50,9 @@ public class Seno extends Visual {
             updatePositions();
 
             // Draw "SE" and "NO" as they move into place
-            text("SE", (sX - 130), height / 2);
+            text("SE", (sX - 210), height / 2);
             if (seInPlace) {
-                text("NO", (nX + 130), height / 2);
+                text("NO", (nX + 210), height / 2);
 
                 // Below is to clear text once it is completed
                 if (!displayStarted) 
