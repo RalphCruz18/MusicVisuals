@@ -1,5 +1,7 @@
 package ie.tudublin;
 
+import java.util.Random;
+
 import processing.core.PVector;
 
 public class Seno extends Visual {
@@ -13,12 +15,31 @@ public class Seno extends Visual {
     private final int displayDuration = 700; // 0.5 seconds in milliseconds
 
     // VALUES FOR STICK FIGURE
-    // Values for the stick figure
+    // circle values
     private float circleRadius = 200; // Default circle radius
     private int circleColor = color(255, 0, 0); // Default circle color (red)
+    
+    //figure values
     private float figureAngle = 0; // Angle for stick figure's position around the circle
     private float figureSize = 20; // Default stick figure size
     private int figureColor = color(0, 0, 255); // Default stick figure color (blue)
+
+    //values for square and figure
+    private float cubeRadius = 200; // Default cube radius
+    private int cubeColor = color(0, 255, 0); // Default cube color
+    private float figurePositionX = 100; // Position for stick figure
+    private float figurePositionY = 100; // Position for stick figure
+    private float figureSizecube = 20; // Default stick figure size
+    private int figureColorcube = color(255, 0, 0); //Default stick figure size
+    private boolean dance = true;
+    private int danceCounter = 0; //counter for moving the stickman every certain amount of time
+    int minY = 4; // Set the minimum value (inclusive)
+    int maxY = 20; // Set the maximum value (exclusive)
+    int minX = -15; // Set the minimum value (inclusive)
+    int maxX = 15; // Set the maximum value (exclusive)
+
+
+    Random random = new Random();
 
     public void settings() 
     {
@@ -36,16 +57,22 @@ public class Seno extends Visual {
         // PLACEHOLDER (subject to change, you can edit or remove this part)
         // Add key controls for circle and stick figure properties
         switch (key) {
-            case '1': // Change circle color
+            case 'q': // Change circle color
                 circleColor = color(random(255), random(255), random(255));
                 break;
-            case '2': // Change circle radius
+            case 'a': // Change circle radius bigger
                 circleRadius += 10;
                 break;
-            case '3': // Change stick figure size
+            case 'z': // Change circle radius smaller (if you go too small it like turns inside out but its kinda cool it can be a feature👍)
+                circleRadius -= 10;
+                break;
+            case 's': // Change stick figure size bigger
                 figureSize += 5;
                 break;
-            case '4': // Change stick figure color
+            case 'x': // Change stick figure size smaller
+                figureSize -= 5;
+                break;
+            case 'w': // Change stick figure color
                 figureColor = color(random(255), random(255), random(255));
                 break;
         }
@@ -54,7 +81,7 @@ public class Seno extends Visual {
 
     public void setup() {
         colorMode(HSB, 360, 100, 100);
-        noCursor();
+        //noCursor();
 
         startMinim();
         loadAudio("Renai Circulation恋愛サーキュレーション歌ってみたなみりん.mp3");
@@ -70,6 +97,7 @@ public class Seno extends Visual {
     {
         background(0);
 
+        //have other files function here(couldnt get it to work)
         if (!displayStarted || millis() - displayStartTime < displayDuration) 
         {
             fill(328, 90, 82); // Pink color in HSB mode
@@ -91,11 +119,25 @@ public class Seno extends Visual {
             }
         }
 
-        // ADD SOME KEY PRESSES 
         // Check if the display time for the text has ended
-        if (displayStarted && millis() - displayStartTime >= displayDuration) {
+        /*if (displayStarted && millis() - displayStartTime >= displayDuration) {
             drawCircleAndFigure(); // Draw the circle and figure 
+        }*/
+
+        // ADD SOME KEY PRESSES
+        switch (key) {
+            case '1': // Change circle color
+                if (displayStarted && millis() - displayStartTime >= displayDuration) {
+                    drawCircleAndFigure(); // Draw the circle and figure 
+                }
+                break;
+            case '2': // Change circle radius bigger
+                if (displayStarted && millis() - displayStartTime >= displayDuration) {
+                    drawCubeAndFigure(); // Draw the circle and figure 
+                }
+                break;
         }
+
     }
 
     private void updatePositions() 
@@ -140,6 +182,125 @@ public class Seno extends Visual {
     
         // Figure position
         figureAngle += radians(2); // Increase angle to move the figure
+    }
+
+    private void drawCubeAndFigure()
+    {
+        // Define the cube size
+        float cubeSize = cubeRadius;
+        
+        // Calculate the perspective factor
+        float perspective = 0.5f; // Smaller value gives more extreme perspective
+
+        // Center position for the cube
+        float centerX = width / 2;
+        float centerY = height / 2;
+        float centerZ = -cubeSize / 2;
+
+        // Define the 8 vertices of the cube for perspective view
+        // Front face vertices are closer to viewer so they appear larger
+        // Back face vertices are further away so they appear smaller due to perspective
+        PVector[] v = new PVector[8];
+        v[0] = new PVector(centerX - cubeSize, centerY - cubeSize, centerZ + cubeSize);
+        v[1] = new PVector(centerX + cubeSize, centerY - cubeSize, centerZ + cubeSize);
+        v[2] = new PVector(centerX + cubeSize * perspective, centerY - cubeSize * perspective, centerZ - cubeSize * perspective);
+        v[3] = new PVector(centerX - cubeSize * perspective, centerY - cubeSize * perspective, centerZ - cubeSize * perspective);
+        v[4] = new PVector(centerX - cubeSize, centerY + cubeSize, centerZ + cubeSize);
+        v[5] = new PVector(centerX + cubeSize, centerY + cubeSize, centerZ + cubeSize);
+        v[6] = new PVector(centerX + cubeSize * perspective, centerY + cubeSize * perspective, centerZ - cubeSize * perspective);
+        v[7] = new PVector(centerX - cubeSize * perspective, centerY + cubeSize * perspective, centerZ - cubeSize * perspective);
+
+        // Draw the edges of the cube
+        stroke(cubeColor);
+        strokeWeight(2);
+        fill(cubeColor);
+
+        
+        // Draw the front face (larger, closer to the screen)
+        line(v[0].x, v[0].y, v[0].z, v[1].x, v[1].y, v[1].z);
+        line(v[1].x, v[1].y, v[1].z, v[5].x, v[5].y, v[5].z);
+        line(v[5].x, v[5].y, v[5].z, v[4].x, v[4].y, v[4].z);
+        line(v[4].x, v[4].y, v[4].z, v[0].x, v[0].y, v[0].z);
+
+        // Draw the back face (smaller, further from the screen)
+        line(v[2].x, v[2].y, v[2].z, v[3].x, v[3].y, v[3].z);
+        line(v[3].x, v[3].y, v[3].z, v[7].x, v[7].y, v[7].z);
+        line(v[7].x, v[7].y, v[7].z, v[6].x, v[6].y, v[6].z);
+        line(v[6].x, v[6].y, v[6].z, v[2].x, v[2].y, v[2].z);
+
+        // Connect the front and back faces
+        line(v[0].x, v[0].y, v[0].z, v[3].x, v[3].y, v[3].z);
+        line(v[1].x, v[1].y, v[1].z, v[2].x, v[2].y, v[2].z);
+        line(v[4].x, v[4].y, v[4].z, v[7].x, v[7].y, v[7].z);
+        line(v[5].x, v[5].y, v[5].z, v[6].x, v[6].y, v[6].z);
+
+
+        
+
+        // Draw the back face (furthest from the viewer)
+        beginShape(QUADS);
+        vertex(v[2].x, v[2].y, v[2].z);
+        vertex(v[3].x, v[3].y, v[3].z);
+        vertex(v[7].x, v[7].y, v[7].z);
+        vertex(v[6].x, v[6].y, v[6].z);
+        endShape();
+
+        // Draw the bottom face (if we consider the cube sitting on a surface)
+        beginShape(QUADS);
+        vertex(v[7].x, v[7].y, v[7].z);
+        vertex(v[4].x, v[4].y, v[4].z);
+        vertex(v[5].x, v[5].y, v[5].z);
+        vertex(v[6].x, v[6].y, v[6].z);
+        endShape();
+
+        // You can still draw the other edges as lines if needed
+        // But if you don't want the front face filled, don't define it with beginShape/endShape
+        // Just draw its edges
+        stroke(cubeColor);
+        line(v[4].x, v[4].y, v[4].z, v[5].x, v[5].y, v[5].z);
+        line(v[5].x, v[5].y, v[5].z, v[6].x, v[6].y, v[6].z);
+        line(v[6].x, v[6].y, v[6].z, v[7].x, v[7].y, v[7].z);
+        line(v[7].x, v[7].y, v[7].z, v[4].x, v[4].y, v[4].z);
+
+        // Draw the remaining visible edges as lines
+        line(v[0].x, v[0].y, v[0].z, v[3].x, v[3].y, v[3].z);
+        line(v[1].x, v[1].y, v[1].z, v[2].x, v[2].y, v[2].z);
+        line(v[4].x, v[4].y, v[4].z, v[7].x, v[7].y, v[7].z);
+        line(v[5].x, v[5].y, v[5].z, v[6].x, v[6].y, v[6].z);
+
+
+
+        noFill();
+
+        // Draw the stick figure on one of the cube vertices if needed
+        // Adjust the stick figure's draw function to work with 3D coordinates if it currently does not
+    
+        // Calculation to make the feet touch the circle edge
+        PVector figurePos = new PVector
+        (
+            (figurePositionX) * (5), 
+            (figurePositionY) * (5)
+        );
+    
+        drawStickFigure(figurePos, figureSize+10); // Draw the stick figure
+    
+        int randomX = minX + random.nextInt(maxX - minX);
+        int randomY = minY + random.nextInt(maxY - minY);
+        
+        // Figure position
+        while(danceCounter==9) {
+            figurePositionX=randomX+100;
+            figurePositionY=randomY+100;
+            break;
+        }
+
+        if(danceCounter<10) {
+            danceCounter++;
+        }
+        else {
+            danceCounter=0;
+        }
+        
     }
 
     private void drawStickFigure(PVector position, float size) 
