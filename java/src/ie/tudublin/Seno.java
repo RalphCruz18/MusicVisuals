@@ -6,7 +6,7 @@ public class Seno extends Visual {
 
     private float sX = -100;
     private float nX;
-    private final float textSpeed = 45;
+    private final float textSpeed = 50;
     private boolean seInPlace = false; // Checks if SE is in place
     private boolean displayStarted = false;
     private int displayStartTime;
