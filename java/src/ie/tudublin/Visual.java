@@ -26,8 +26,8 @@ public abstract class Visual extends PApplet
 	public void startMinim() 
 	{
 		minim = new Minim(this);
-		//ap = minim.loadFile("Renai Circulation恋愛サーキュレーション歌ってみたなみりん.mp3", 1024);
-        //ap.play();
+		//ap = minim.loadFile("song.mp3", 1024);
+		loadAudio("song.mp3");
 
 		fft = new FFT(frameSize, sampleRate);
 
@@ -61,7 +61,7 @@ public abstract class Visual extends PApplet
         {
 			total += abs(ab.get(i));
 		}
-		amplitude = total / ab.size();
+		amplitude = total / ab.size(); //default
 		smothedAmplitude = PApplet.lerp(smothedAmplitude, amplitude, 0.1f);
 	}
 
