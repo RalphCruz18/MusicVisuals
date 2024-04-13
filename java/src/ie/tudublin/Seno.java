@@ -17,7 +17,7 @@ public class Seno extends Visual {
         //size(300, 300, P3D);
     }
     public void setup() {
-        colorMode(HSB, 360, 100, 100);
+        colorMode(HSB, 360, 255, 255);
         //noCursor();
         startMinim();
         loadAudio("Renai Circulation恋愛サーキュレーション歌ってみたなみりん.mp3");
@@ -30,7 +30,7 @@ public class Seno extends Visual {
     public void draw() {
         background(0);
         if (drawSphere) {
-            Ralph.RalphSphere();
+            Ralph.draw();
         }
     }
 
@@ -38,8 +38,8 @@ public class Seno extends Visual {
         println("Key pressed: " + key);  // Debug output to check key press
         switch(key) {
             case '1':
-                Ralph.RalphSphere();
                 drawSphere = true;  // Enable drawing the sphere
+                Ralph.addStars(100);
                 break;
             default:
                 println("No function assigned to this key");
