@@ -22,6 +22,14 @@ public class RalphVisuals extends Visual{
             return;
         }
 
+        float fov = parent.mouseX / (float) parent.width * PApplet.PI / 2;
+        float cameraY = parent.height / 2.0f;
+        float cameraZ = cameraY / PApplet.tan(fov / 2.0f);
+        parent.perspective(fov, (float) parent.width / (float) parent.height, cameraZ / 10.0f, cameraZ * 10.0f);
+        parent.camera(parent.width / 2.0f, cameraY, cameraZ,  // eye position
+                      parent.width / 2.0f, cameraY, 0,         // center position
+                      0, 1, 0);        
+
         // Analyze the audio to get the amplitude
         if (parent instanceof Visual) {
             ((Visual)parent).calculateAverageAmplitude();
@@ -40,7 +48,7 @@ public class RalphVisuals extends Visual{
         stroke(255);  // Disable stroke for a cleaner look
         pushMatrix();  // Save the current transformation matrix
         // Position the sphere based on the amplitude and animate it
-        translate(width / 2, yPosition, -200);  // Use yPosition for dynamic vertical movement
+        translate(width / 2, height/2, -200);  // Use yPosition for dynamic vertical movement
         sphere(280);  // Draw a sphere with a radius of 280 pixels
         popMatrix();  // Restore the previous transformation matrix
         angle += 0.05;  // Adjust this value to change the speed of other animations
