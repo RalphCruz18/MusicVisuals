@@ -1,6 +1,7 @@
 package ie.tudublin;
 
 import c22427602.RalphVisuals;
+
 import processing.core.PApplet;
 import processing.core.PMatrix3D;
 
@@ -14,9 +15,9 @@ import processing.core.PVector;
 public class Seno extends Visual {
     RalphVisuals Ralph;
     private boolean drawSphere = false;
-    ArrayList<LyricLine> lyrics = new ArrayList<LyricLine>();
-
+    ArrayList<Lyric> lyrics = new ArrayList<Lyric>();
     
+
     public void settings() {
         fullScreen(P3D, SPAN);
         //size(300, 300, P3D);
@@ -26,93 +27,64 @@ public class Seno extends Visual {
         colorMode(HSB, 360, 255, 255);
         //noCursor();
         startMinim();
-        loadAudio("Renai Circulation恋愛サーキュレーション歌ってみたなみりん.mp3");
+        loadAudio("Renai Circulation恋愛サーキュレーションKana Hanazawa.mp3");
         getAudioPlayer().play();
         Ralph = new RalphVisuals();  // Instantiate Ralph object
         Ralph.setParent(this);
-        setupLyrics();
+
+        loadLyrics();
     }
 
-    class LyricLine {
-        String text;
-        float startTime; // Time in seconds
+    void loadLyrics() {
+        String[] lines = loadStrings("[Japanese] Renai Circulation「恋愛サーキュレーション」Kana Hanazawa [DownSub.com].srt");
+        int i = 0;
+        while (i < lines.length) {
+            if (lines[i].trim().matches("\\d+")) {  // Checks if the line is a sequence number
+                i++;
+                if (i < lines.length && lines[i].contains("-->")) {
+                    String[] timeCodes = lines[i].trim().split(" --> ");
+                    float startTime = parseSrtTime(timeCodes[0]);
+                    float endTime = parseSrtTime(timeCodes[1]);
     
-        LyricLine(String text, double d) {
-            this.text = text;
-            this.startTime = (float) d;
-        }
-    }
-
-
-    void setupLyrics() {
-        // Intro
-        lyrics.add(new LyricLine("Seno! Demo sonnan ja dame", 0.1));  // Timing in seconds
-        lyrics.add(new LyricLine("Mou sonnan ja hora", 2.8));
-        lyrics.add(new LyricLine("Kokoro wa shinka suru yo", 4.6));
-        lyrics.add(new LyricLine("Motto motto", 6.4));
-
-
-        lyrics.add(new LyricLine("Instrumentals", 10));
-        lyrics.add(new LyricLine("Instrumentals", 15));
-        lyrics.add(new LyricLine("Instrumentals", 20));
-        lyrics.add(new LyricLine("Instrumentals", 23));
-
-
-
-        lyrics.add(new LyricLine("Kotoba ni sureba kiechau kankei nara kotoba o keseba ii ya tte", 27.4));
-        lyrics.add(new LyricLine("Omotteta osoreteta Dakedo are? Nanka chigau kamo", 30.3));
-        lyrics.add(new LyricLine("Senri no michi mo ippo kara ishi no you ni katai sonna ishi de", 34.7));
-        lyrics.add(new LyricLine("Chiri mo tsumoreba Yamato Nadeshiko?", 39.5));
-        lyrics.add(new LyricLine("Shi nuki de iya shinu ki de!", 45.2));
-
-        // // Pre-Chorus
-        // lyrics.add(new LyricLine("Fuwafuwari fuwafuwaru anata ga namae o yobu sore dake de chuu e ukabu", 45.0));
-        // lyrics.add(new LyricLine("Fuwafuwaru fuwafuwari anata ga waratte iru sore dake de egao ni naru", 52.0));
-
-        // Chorus
-        //lyrics.add(new LyricLine("Kami-sama arigatou unmei no itazura demo",  62.0));
-        // lyrics.add(new LyricLine("Meguriaeta koto ga", 40.0));
-        // lyrics.add(new LyricLine("Shiawase na no", 42.0));
-
-        // // Post-Chorus
-        // lyrics.add(new LyricLine("Demo sonnan ja dame", 44.0));
-        // lyrics.add(new LyricLine("Mou sonnan ja hora", 46.0));
-        // lyrics.add(new LyricLine("Kokoro wa shinka suru yo", 48.0));
-        // lyrics.add(new LyricLine("Motto motto", 50.0));
-        // lyrics.add(new LyricLine("Sou sonnan ja ya da", 52.0));
-        // lyrics.add(new LyricLine("Nee sonnan ja mada", 54.0));
-        // lyrics.add(new LyricLine("Watashi no koto mitete ne", 56.0));
-        // lyrics.add(new LyricLine("Zutto zutto", 58.0));
-    }
-
-
-    void drawLyrics() {
-        float currentTime = (float) (millis() / 1000.0);  // Convert milliseconds to seconds
-        for (LyricLine line : lyrics) {
-            if (currentTime >= line.startTime && currentTime < line.startTime + 5) {  // Display each line for 5 seconds
-                pushMatrix();  // Save the current transformation matrix
-                translate(50, height - 80, 0);
-
-                // Text to face the camera
-                float[] camNorm = getCameraNormal();
-                float angleY = atan2(camNorm[0], camNorm[2]);
-                float angleX = asin(-camNorm[1]);
-                rotateY(-angleY);
-                rotateX(-angleX);
-
-                rotateY(PI); 
-
-                fill(255);
-                textSize(64);
-                textAlign(LEFT, BOTTOM);
-                text(line.text, 0, 0);
-                popMatrix();
-                break;  // Only show one line at a time
+                    i++;
+                    StringBuilder textBuilder = new StringBuilder();
+                    while (i < lines.length && !lines[i].trim().isEmpty()) {
+                        if (textBuilder.length() > 0) textBuilder.append("\n");
+                        textBuilder.append(lines[i].trim());
+                        i++;
+                    }
+                    lyrics.add(new Lyric(textBuilder.toString(), startTime, endTime));
+                    println("Loaded lyric: " + textBuilder.toString() + " [" + startTime + " to " + endTime + "]");
+                }
+            } else {
+                i++;
             }
         }
     }
     
-    // Calculates the normal vector of the camera facing direction
+    float parseSrtTime(String srtTime) {
+        String[] parts = srtTime.split(":");
+        String[] secParts = parts[2].split(",");
+        float hours = Float.parseFloat(parts[0]);
+        float minutes = Float.parseFloat(parts[1]);
+        float seconds = Float.parseFloat(secParts[0]);
+        float milliseconds = Float.parseFloat(secParts[1]);
+        return (float) (hours * 3600 + minutes * 60 + seconds + milliseconds / 1000.0);
+    }
+    
+    class Lyric {
+        String text;
+        float startTime; // in seconds
+        float endTime; // in seconds
+    
+        Lyric(String text, double d, double e) {
+            this.text = text;
+            this.startTime = (float) d;
+            this.endTime = (float) e;
+        }
+    }
+    
+    // Calculates the vector of the camera facing direction
     public float[] getCameraNormal() {
         PMatrix3D m = (PMatrix3D)this.g.getMatrix();
         float[] camNormal = new float[3];
@@ -124,10 +96,48 @@ public class Seno extends Visual {
 
     public void draw() {
         background(0);
+        float currentTime = getAudioPlayer().position() / 1000.0f;
+    
         if (drawSphere) {
-            Ralph.draw();
+            Ralph.draw(); 
         }
-        drawLyrics();
+    
+        hint(DISABLE_DEPTH_TEST);
+    
+        textSize(80);
+        textAlign(CENTER, BOTTOM);
+    
+        // Get the rotation angles from RalphVisuals
+        PVector rotationAngles = Ralph.getCameraRotation();  //EULAR ANGLES
+        colorMode(HSB, 360, 255, 255, 255);
+
+        for (Lyric lyric : lyrics) {
+            if (currentTime >= lyric.startTime && currentTime <= lyric.endTime) {
+                pushMatrix();
+    
+                // Set the position for text in front of the camera
+                translate(width / 2, height - 70, 10); // Center and a bit in front
+    
+                // Inverse rotation to face cam
+                rotateX(rotationAngles.x);
+                rotateY(rotationAngles.y);
+                rotateZ(rotationAngles.z);
+    
+                // colourful lyrics
+                // float hue = (frameCount * 10 + 360 * (width / 2 + width) / (2 * width)) % 360;
+                // float brightness = 100 + 155 * (0.5f * (1 + sin(frameCount / 30.0f)));
+                // fill(color(hue, 255, brightness, 128));
+
+                // white lyrics
+                fill(255);
+
+                text(lyric.text, 0, 0); // Draw at the adjusted position
+                popMatrix();
+                break;
+            }
+        }
+        hint(ENABLE_DEPTH_TEST);
+
     }
 
     public void keyPressed() {
@@ -135,8 +145,14 @@ public class Seno extends Visual {
         switch(key) {
             case '1':
                 drawSphere = true;  // Enable drawing the sphere
-                Ralph.addStars(100);
+                Ralph.addStars(400);
                 break;
+            case ' ':
+                if (getAudioPlayer().isPlaying()) {
+                    getAudioPlayer().pause();
+                } else {
+                    getAudioPlayer().play();
+                }
             default:
                 println("No function assigned to this key");
         }

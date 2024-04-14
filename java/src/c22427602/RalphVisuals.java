@@ -13,6 +13,8 @@ public class RalphVisuals extends Visual {
     private ArrayList<PVector> stars;  // Store positions of stars
     private float currentX = 0;
     private float targetX = 0;
+    public float cameraX;
+    public float cameraY;
 
     // Method to set the parent PApplet
     public void setParent(PApplet parent) {
@@ -51,6 +53,7 @@ public class RalphVisuals extends Visual {
 
             float size = 10 + 5 * sin(parent.frameCount / 40.0f);
             parent.sphere(size);
+
             parent.popMatrix();
         }
     }
@@ -86,7 +89,7 @@ public class RalphVisuals extends Visual {
         parent.popMatrix();
 
         addShell(currentX, yPosition, size + 20, 60, 160);  // Slightly larger than the sphere
-        addHaloRing(currentX, yPosition, size, hue, alpha);
+        addHaloRing(currentX, yPosition, 500, hue, alpha);
         angle += 0.05;
     }
     
@@ -115,39 +118,67 @@ public class RalphVisuals extends Visual {
     private void addHaloRing(float x, float y, float baseSize, float hue, float alpha) {
         parent.pushMatrix();
         parent.translate(x, y, -200);
-        // Orbit around sphere
-        float orbitRadius = baseSize + 120; // Increased for clear separation
+    
+        // Calculate the orbit radius to ensure it's clearly separated from the sphere
+        float orbitRadius = baseSize + 170; // Increased for clear separation
+    
         // Radius outside of orbit radius
         float visualRadius = orbitRadius + 10;
-        // Rotate the plane of the ring to be horizontal
-        parent.rotateX(random(PApplet.PI / 2, 3));
-        // Adjust the drawing position of the ring based on the calculated orbit
+    
+        // Interpolated angle for rotation
+        float startAngle = PApplet.PI / 2;
+        float endAngle = 3 * PApplet.PI / 2;
+        float interpolationFactor = 0.5f * (1 + PApplet.sin(parent.millis() * 0.001f)); // Slowly oscillates between 0 and 1
+        float interpolatedAngle = PApplet.lerp(startAngle, endAngle, interpolationFactor);
+
+        // Rotate the plane of the ring
+        parent.rotateX(interpolatedAngle);
         parent.noFill();
         parent.stroke(hue, 255, 255, alpha); 
         parent.strokeWeight(5); 
-        // Draw the ring as an ellipse centered on the orbital position
         float diameter = visualRadius * 2;
-        parent.ellipse(0, 0, diameter, diameter); // Using a minor axis height of 10 for a flat appearance
+        parent.ellipse(0, 0, diameter, diameter + 20); 
         parent.popMatrix();
     }
     
 
-    // Unified draw function to manage all drawing
+    public PVector getCameraRotation() {
+        PMatrix3D m = (PMatrix3D)parent.g.getMatrix();
+    
+        // Calculate Euler angles
+        float sy = -m.m02;
+        float cy = PApplet.sqrt(m.m00 * m.m00 + m.m01 * m.m01);
+        boolean singular = cy < 1e-6; // If close to singular
+
+        float x, y, z;
+        if (!singular) {
+            x = PApplet.atan2(m.m12, m.m22);
+            y = PApplet.atan2(sy, cy);
+            z = PApplet.atan2(m.m01, m.m00);
+        } else {
+            x = PApplet.atan2(-m.m21, m.m11);
+            y = PApplet.atan2(sy, cy);
+            z = 0;
+        }
+
+        return new PVector(x, y, z);
+    }
+
     public void draw() {
-        // dynamic cam
-        float fov = PApplet.PI / 3;  // A moderate field of view for a good initial perspective
+        // // dynamic cam
+        float fov = PApplet.PI / 6;  // A moderate field of view for a good initial perspective
         if (parent.mouseX != 0) {  // Check if the mouse has moved from the default position
             fov = parent.mouseX / (float) parent.width * PApplet.PI / 2;
         }
 
-        float cameraY = parent.height / 1.5f;  // Start with the camera at half the height of the window
+        cameraY = parent.height / 1.5f;  // Start with the camera at half the height of the window
         float cameraZ = cameraY / PApplet.tan(fov / 2.0f);  // Calculate camera Z based on the updated FOV
 
         parent.perspective(fov, (float) parent.width / (float) parent.height, cameraZ / 10.0f, cameraZ * 10.0f);
 
         // Calculate angle for circular camera movement
-        float angle = parent.frameCount * 0.01f; // Change 0.01 to adjust speed of rotation
-        float cameraX = parent.width / 2.0f + cameraZ * PApplet.sin(angle);
+        float angle = parent.frameCount * 0.03f; // Change 0.01 to adjust speed of rotation
+        cameraX = parent.width / 2.0f + cameraZ * PApplet.sin(angle);
         float cameraZPosition = cameraZ * PApplet.cos(angle);
 
         // Updated camera setup to circle around the sphere
@@ -155,7 +186,7 @@ public class RalphVisuals extends Visual {
                     parent.width / 2.0f, cameraY, 0, 
                     0, 1, 0);
 
-        // Static cam
+        //Static cam
         // float fov = PApplet.PI / 3;
         // float cameraY = parent.height / 2.0f;
         // float cameraZ = (cameraY / PApplet.tan(fov / 2.0f)) * 2; // Increase distance
