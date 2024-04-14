@@ -2,6 +2,7 @@ package ie.tudublin;
 
 import c22427602.RalphVisuals;
 import processing.core.PApplet;
+import processing.core.PMatrix3D;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ public class Seno extends Visual {
         fullScreen(P3D, SPAN);
         //size(300, 300, P3D);
     }
+    
     public void setup() {
         colorMode(HSB, 360, 255, 255);
         //noCursor();
@@ -44,44 +46,43 @@ public class Seno extends Visual {
 
     void setupLyrics() {
         // Intro
-        lyrics.add(new LyricLine("Seno!", 0.0));  // Timing in seconds
-        lyrics.add(new LyricLine("Demo sonnan ja dame", 1.8));
-        lyrics.add(new LyricLine("Mou sonnan ja hora", 3.6));
-        lyrics.add(new LyricLine("Kokoro wa shinka suru yo", 5.7));
-        lyrics.add(new LyricLine("Motto motto", 6.8));
+        lyrics.add(new LyricLine("Seno! Demo sonnan ja dame", 0.1));  // Timing in seconds
+        lyrics.add(new LyricLine("Mou sonnan ja hora", 2.8));
+        lyrics.add(new LyricLine("Kokoro wa shinka suru yo", 4.6));
+        lyrics.add(new LyricLine("Motto motto", 6.4));
 
-        lyrics.add(new LyricLine("Kotoba ni sureba kiechau kankei nara", 8.0));
-        lyrics.add(new LyricLine("Kotoba o keseba ii ya tte", 10.0));
-        lyrics.add(new LyricLine("Omotteta osoreteta", 12.0));
-        lyrics.add(new LyricLine("Dakedo are? Nanka chigau kamo", 14.0));
-        lyrics.add(new LyricLine("Senri no michi mo ippo kara", 16.0));
-        lyrics.add(new LyricLine("Ishi no you ni katai sonna ishi de", 18.0));
-        lyrics.add(new LyricLine("Chiri mo tsumoreba Yamato Nadeshiko?", 20.0));
-        lyrics.add(new LyricLine("'Shi' nuki de iya shinu ki de", 22.0));
 
-        // Pre-Chorus
-        lyrics.add(new LyricLine("Fuwafuwari fuwafuwaru", 24.0));
-        lyrics.add(new LyricLine("Anata ga namae o yobu", 26.0));
-        lyrics.add(new LyricLine("Sore dake de chuu e ukabu", 28.0));
-        lyrics.add(new LyricLine("Fuwafuwaru fuwafuwari", 30.0));
-        lyrics.add(new LyricLine("Anata ga waratte iru", 32.0));
-        lyrics.add(new LyricLine("Sore dake de egao ni naru", 34.0));
+        lyrics.add(new LyricLine("Instrumentals", 10));
+        lyrics.add(new LyricLine("Instrumentals", 15));
+        lyrics.add(new LyricLine("Instrumentals", 20));
+        lyrics.add(new LyricLine("Instrumentals", 23));
+
+
+
+        lyrics.add(new LyricLine("Kotoba ni sureba kiechau kankei nara kotoba o keseba ii ya tte", 27.4));
+        lyrics.add(new LyricLine("Omotteta osoreteta Dakedo are? Nanka chigau kamo", 30.3));
+        lyrics.add(new LyricLine("Senri no michi mo ippo kara ishi no you ni katai sonna ishi de", 34.7));
+        lyrics.add(new LyricLine("Chiri mo tsumoreba Yamato Nadeshiko?", 39.5));
+        lyrics.add(new LyricLine("Shi nuki de iya shinu ki de!", 45.2));
+
+        // // Pre-Chorus
+        // lyrics.add(new LyricLine("Fuwafuwari fuwafuwaru anata ga namae o yobu sore dake de chuu e ukabu", 45.0));
+        // lyrics.add(new LyricLine("Fuwafuwaru fuwafuwari anata ga waratte iru sore dake de egao ni naru", 52.0));
 
         // Chorus
-        lyrics.add(new LyricLine("Kami-sama arigatou", 36.0));
-        lyrics.add(new LyricLine("Unmei no itazura demo", 38.0));
-        lyrics.add(new LyricLine("Meguriaeta koto ga", 40.0));
-        lyrics.add(new LyricLine("Shiawase na no", 42.0));
+        //lyrics.add(new LyricLine("Kami-sama arigatou unmei no itazura demo",  62.0));
+        // lyrics.add(new LyricLine("Meguriaeta koto ga", 40.0));
+        // lyrics.add(new LyricLine("Shiawase na no", 42.0));
 
-        // Post-Chorus
-        lyrics.add(new LyricLine("Demo sonnan ja dame", 44.0));
-        lyrics.add(new LyricLine("Mou sonnan ja hora", 46.0));
-        lyrics.add(new LyricLine("Kokoro wa shinka suru yo", 48.0));
-        lyrics.add(new LyricLine("Motto motto", 50.0));
-        lyrics.add(new LyricLine("Sou sonnan ja ya da", 52.0));
-        lyrics.add(new LyricLine("Nee sonnan ja mada", 54.0));
-        lyrics.add(new LyricLine("Watashi no koto mitete ne", 56.0));
-        lyrics.add(new LyricLine("Zutto zutto", 58.0));
+        // // Post-Chorus
+        // lyrics.add(new LyricLine("Demo sonnan ja dame", 44.0));
+        // lyrics.add(new LyricLine("Mou sonnan ja hora", 46.0));
+        // lyrics.add(new LyricLine("Kokoro wa shinka suru yo", 48.0));
+        // lyrics.add(new LyricLine("Motto motto", 50.0));
+        // lyrics.add(new LyricLine("Sou sonnan ja ya da", 52.0));
+        // lyrics.add(new LyricLine("Nee sonnan ja mada", 54.0));
+        // lyrics.add(new LyricLine("Watashi no koto mitete ne", 56.0));
+        // lyrics.add(new LyricLine("Zutto zutto", 58.0));
     }
 
 
@@ -89,13 +90,36 @@ public class Seno extends Visual {
         float currentTime = (float) (millis() / 1000.0);  // Convert milliseconds to seconds
         for (LyricLine line : lyrics) {
             if (currentTime >= line.startTime && currentTime < line.startTime + 5) {  // Display each line for 5 seconds
+                pushMatrix();  // Save the current transformation matrix
+                translate(50, height - 80, 0);
+
+                // Text to face the camera
+                float[] camNorm = getCameraNormal();
+                float angleY = atan2(camNorm[0], camNorm[2]);
+                float angleX = asin(-camNorm[1]);
+                rotateY(-angleY);
+                rotateX(-angleX);
+
+                rotateY(PI); 
+
                 fill(255);
                 textSize(64);
-                textAlign(CENTER, CENTER);
-                text(line.text, width / 2, height / 2);
+                textAlign(LEFT, BOTTOM);
+                text(line.text, 0, 0);
+                popMatrix();
                 break;  // Only show one line at a time
             }
         }
+    }
+    
+    // Calculates the normal vector of the camera facing direction
+    public float[] getCameraNormal() {
+        PMatrix3D m = (PMatrix3D)this.g.getMatrix();
+        float[] camNormal = new float[3];
+        camNormal[0] = -m.m02;
+        camNormal[1] = -m.m12;
+        camNormal[2] = -m.m22;
+        return camNormal;
     }
 
     public void draw() {
