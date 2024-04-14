@@ -4,8 +4,8 @@ import ie.tudublin.*;
 import processing.core.PVector;
 import processing.core.PApplet;
 import processing.core.PMatrix3D;
-import processing.core.PShape;
 import java.util.ArrayList;
+import processing.core.PShape;
 
 public class RalphVisuals extends Visual {
     private PApplet parent;  // Reference to PApplet app

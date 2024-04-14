@@ -1,6 +1,7 @@
 package ie.tudublin;
 
 import c22427602.RalphVisuals;
+import C22421292.SeanVisuals;
 
 import processing.core.PApplet;
 import processing.core.PMatrix3D;
@@ -10,7 +11,13 @@ import processing.core.PVector;
 public class Seno extends Visual {
     RalphVisuals Ralph;
     private boolean drawSphere = false;
+    SeanVisuals Sean;
+    private boolean drawCube = false;
     ArrayList<Lyric> lyrics = new ArrayList<Lyric>();
+
+
+    int bgColor = color(30, 255, 255);  //Adjusting the background colour. Default to black
+
     
 
     public void settings() {
@@ -27,6 +34,9 @@ public class Seno extends Visual {
 
         Ralph = new RalphVisuals();  // Instantiate Ralph object
         Ralph.setParent(this);
+
+        Sean = new SeanVisuals(); // Instantiate Sean object
+        Sean.setParent(this);
 
         loadLyrics();
     }
@@ -92,11 +102,15 @@ public class Seno extends Visual {
     }
 
     public void draw() {
-        background(0);
+        background(bgColor);
+
         float currentTime = getAudioPlayer().position() / 1000.0f;
     
         if (drawSphere) {
             Ralph.draw(); 
+        }
+        else if (drawCube) {
+            Sean.draw(); 
         }
 
 
@@ -113,6 +127,7 @@ public class Seno extends Visual {
         colorMode(HSB, 360, 255, 255, 255);
 
         for (Lyric lyric : lyrics) {
+            int lyricColor = 255;
             if (currentTime >= lyric.startTime && currentTime <= lyric.endTime) {
                 pushMatrix();
     
@@ -130,7 +145,7 @@ public class Seno extends Visual {
                 // fill(color(hue, 255, brightness, 128));
 
                 // white lyrics
-                fill(255);
+                fill(lyricColor);
 
                 text(lyric.text, 0, 0); // Draw at the adjusted position
                 popMatrix();
@@ -146,11 +161,14 @@ public class Seno extends Visual {
         switch(key) {
             case '1':
                 drawSphere = true;  // Enable drawing the sphere
-                Ralph.addStars(400);
+                //Ralph.addStars(400); //commented out while testing cause too many fricking stars bro
+                bgColor=color(0);
                 break;
             case '2':
-                //drawCube = true;
-
+                bgColor=color(30, 255, 255);
+                drawSphere = false; // Disable drawing the sphere to show only cube
+                drawCube = true;
+                break;
             case ' ':
                 if (getAudioPlayer().isPlaying()) {
                     getAudioPlayer().pause();
@@ -159,9 +177,6 @@ public class Seno extends Visual {
                 }
             case 'r':
                 drawSphere = false;
-                Ralph.resetCameraAngles(); 
-                textAlign(CENTER, BOTTOM);
-                background(0); 
                 break;
             default:
                 println("No function assigned to this key");
