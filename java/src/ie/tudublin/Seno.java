@@ -4,12 +4,7 @@ import c22427602.RalphVisuals;
 
 import processing.core.PApplet;
 import processing.core.PMatrix3D;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import java.util.Random;
-
 import processing.core.PVector;
 
 public class Seno extends Visual {
@@ -29,6 +24,7 @@ public class Seno extends Visual {
         startMinim();
         loadAudio("Renai Circulation恋愛サーキュレーションKana Hanazawa.mp3");
         getAudioPlayer().play();
+
         Ralph = new RalphVisuals();  // Instantiate Ralph object
         Ralph.setParent(this);
 
@@ -54,6 +50,7 @@ public class Seno extends Visual {
                         i++;
                     }
                     lyrics.add(new Lyric(textBuilder.toString(), startTime, endTime));
+                    //DEBUG
                     println("Loaded lyric: " + textBuilder.toString() + " [" + startTime + " to " + endTime + "]");
                 }
             } else {
@@ -101,6 +98,10 @@ public class Seno extends Visual {
         if (drawSphere) {
             Ralph.draw(); 
         }
+
+
+
+        // SEPARATION //
     
         hint(DISABLE_DEPTH_TEST);
     
@@ -147,12 +148,21 @@ public class Seno extends Visual {
                 drawSphere = true;  // Enable drawing the sphere
                 Ralph.addStars(400);
                 break;
+            case '2':
+                //drawCube = true;
+
             case ' ':
                 if (getAudioPlayer().isPlaying()) {
                     getAudioPlayer().pause();
                 } else {
                     getAudioPlayer().play();
                 }
+            case 'r':
+                drawSphere = false;
+                Ralph.resetCameraAngles(); 
+                textAlign(CENTER, BOTTOM);
+                background(0); 
+                break;
             default:
                 println("No function assigned to this key");
         }
