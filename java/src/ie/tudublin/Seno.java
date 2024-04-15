@@ -1,7 +1,7 @@
 package ie.tudublin;
 
 import c22427602.RalphVisuals;
-import C22421292.SeanVisuals;
+import c22421292.SeanVisuals;
 
 import processing.core.PApplet;
 import processing.core.PMatrix3D;
@@ -16,7 +16,7 @@ public class Seno extends Visual {
     ArrayList<Lyric> lyrics = new ArrayList<Lyric>();
 
 
-    int bgColor = color(30, 255, 255);  //Adjusting the background colour. Default to black
+    int bgColor = color(0);  //Adjusting the background colour. Default to black
 
     
 
@@ -161,7 +161,8 @@ public class Seno extends Visual {
         switch(key) {
             case '1':
                 drawSphere = true;  // Enable drawing the sphere
-                //Ralph.addStars(400); //commented out while testing cause too many fricking stars bro
+                drawCube = false;
+                Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
                 bgColor=color(0);
                 break;
             case '2':

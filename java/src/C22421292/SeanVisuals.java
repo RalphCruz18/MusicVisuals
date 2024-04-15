@@ -1,4 +1,4 @@
-package C22421292;
+package c22421292;
 
 import ie.tudublin.*;
 import processing.core.PVector;
