@@ -162,7 +162,7 @@ public class Seno extends Visual {
             case '1':
                 drawSphere = true;  // Enable drawing the sphere
                 drawCube = false;
-                Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
+                //Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
                 bgColor=color(0);
                 break;
             case '2':
@@ -178,6 +178,7 @@ public class Seno extends Visual {
                 }
             case 'r':
                 drawSphere = false;
+                drawCube = false;
                 break;
             default:
                 println("No function assigned to this key");
