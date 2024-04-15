@@ -166,6 +166,7 @@ public class Seno extends Visual {
                 bgColor=color(0);
                 break;
             case '2':
+                Sean.sceneChange();
                 bgColor=color(30, 255, 255);
                 drawSphere = false; // Disable drawing the sphere to show only cube
                 drawCube = true;

@@ -14,12 +14,30 @@ public class SeanVisuals extends Visual{
     public float cameraY;
     public float x, y, z = 0;
 
+    public int scene = 0;
+    int hue = 0;
+
     // Method to set the parent PApplet
     public void setParent(PApplet parent) {
         this.parent = parent;
         this.g = parent.g;
         this.width = parent.width;
         this.height = parent.height;
+    }
+
+    public void sceneChange() {
+        //scene count checker
+        if (scene < 3 && scene > 0) {
+            scene += 1;
+        }
+        else if (scene >= 3) {
+            scene = 1;
+        }
+        else if (scene <= 0) {
+            scene = 1;
+        }
+
+        println("Current scene: " + scene);  // Debug output to check scene
     }
 
     private void drawSingleCube(float xPosition, float yPosition) {
@@ -36,6 +54,16 @@ public class SeanVisuals extends Visual{
     
 
     private void drawCube() {
+        if (scene == 1) {
+            hue = 20;
+        }
+        else if (scene == 2) {
+            hue = 50;
+        }
+        else if (scene == 3) {
+            hue = 80;
+        }
+
         if (parent instanceof Visual) {
             ((Visual)parent).calculateAverageAmplitude();
         }
@@ -45,7 +73,7 @@ public class SeanVisuals extends Visual{
         parent.lights();
     
         // Set color for cubes
-        float hue = (parent.frameCount * 10 + 360 * (parent.width / 2 + parent.width) / (2 * parent.width)) % 360;
+        //float hue = (parent.frameCount * 10 + 360 * (parent.width / 2 + parent.width) / (2 * parent.width)) % 360;
         float alpha = map(amplitude, 0, 1, 10, 255);  // Adjust alpha based on amplitude for a pulsating effect
         parent.fill(hue, 255, 255, alpha);  
         parent.noStroke();  
