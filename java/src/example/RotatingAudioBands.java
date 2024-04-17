@@ -32,7 +32,7 @@ public class RotatingAudioBands extends Visual {
         setFrameSize(256);
 
         startMinim();
-        loadAudio("Renai Circulation恋愛サーキュレーション歌ってみたなみりん.mp3");
+        loadAudio("Renai Circulation恋愛サーキュレーションKana Hanazawa.mp3");
         getAudioPlayer().play();
         //startListening();
         

@@ -3,7 +3,6 @@ package ie.tudublin;
 import c22427602.RalphVisuals;
 import c22421292.SeanVisuals;
 
-import processing.core.PApplet;
 import processing.core.PMatrix3D;
 import java.util.ArrayList;
 import processing.core.PVector;
@@ -15,9 +14,7 @@ public class Seno extends Visual {
     private boolean drawCube = false;
     ArrayList<Lyric> lyrics = new ArrayList<Lyric>();
 
-
-    int bgColor = color(0);  //Adjusting the background colour. Default to black
-
+    AudioBandsVisual abv;
     
 
     public void settings() {
@@ -39,6 +36,8 @@ public class Seno extends Visual {
         Sean.setParent(this);
 
         loadLyrics();
+
+        abv = new AudioBandsVisual(this);
     }
 
     void loadLyrics() {
@@ -102,7 +101,17 @@ public class Seno extends Visual {
     }
 
     public void draw() {
-        background(bgColor);
+        background(0);
+
+        try {
+            // Call this if you want to use FFT data
+            calculateFFT();
+        } catch (VisualException e) {
+            e.printStackTrace();
+        }
+        // Call this is you want to use frequency bands
+        calculateFrequencyBands();
+    
 
         float currentTime = getAudioPlayer().position() / 1000.0f;
     
@@ -111,6 +120,7 @@ public class Seno extends Visual {
         }
         else if (drawCube) {
             Sean.draw(); 
+            abv.render(Sean.bandColor, Sean.bandSaturation);
         }
 
 
@@ -163,13 +173,13 @@ public class Seno extends Visual {
                 drawSphere = true;  // Enable drawing the sphere
                 drawCube = false;
                 //Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
-                bgColor=color(0);
+                println("Ralph Scene");
                 break;
             case '2':
-                Sean.sceneChange();
-                bgColor=color(30, 255, 255);
                 drawSphere = false; // Disable drawing the sphere to show only cube
                 drawCube = true;
+                println("Sean Scene");
+                Sean.sceneChange();
                 break;
             case ' ':
                 if (getAudioPlayer().isPlaying()) {

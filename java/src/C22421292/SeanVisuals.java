@@ -8,15 +8,21 @@ import processing.core.PMatrix3D;
 public class SeanVisuals extends Visual{
     private PApplet parent;  // Reference to PApplet app
     private float angle = 0.0f;  // Angle for sine wave calculation
-    //private float currentX = 0; //x values for moving the target randomly
-    //private float targetX = 0; //x values for moving the target randomly
+
     public float cameraX;
     public float cameraY;
     public float x, y, z = 0;
 
     public int scene = 0;
     int hue = 0;
+    int bgHue = 0;
+    int bgBrightness = 0;
+    
+    float cubeSize = 0.0f;
 
+    public int bandColor = 0;
+    public int bandSaturation = 0;
+    
     // Method to set the parent PApplet
     public void setParent(PApplet parent) {
         this.parent = parent;
@@ -26,6 +32,7 @@ public class SeanVisuals extends Visual{
     }
 
     public void sceneChange() {
+        bgBrightness = 0;
         //scene count checker
         if (scene < 3 && scene > 0) {
             scene += 1;
@@ -40,7 +47,7 @@ public class SeanVisuals extends Visual{
         println("Current scene: " + scene);  // Debug output to check scene
     }
 
-    private void drawSingleCube(float xPosition, float yPosition) {
+    private void drawSingleCube(float xPosition, float yPosition, float sizeMod, int cubeColor) {
         float amplitude = ((Visual)parent).getSmoothedAmplitude();
     
         parent.pushMatrix();
@@ -48,22 +55,43 @@ public class SeanVisuals extends Visual{
         parent.rotateX(PApplet.radians(-15));
         parent.rotateY(-angle);
         float size = 1000 * (0.5f + 1.1f * amplitude);  // Cube size based on amplitude
-        parent.box(size);  // Draw the cube
+        parent.fill(cubeColor);
+        parent.box(size*sizeMod);  // Draw the cube
         parent.popMatrix();
     }
     
 
     private void drawCube() {
-        if (scene == 1) {
-            hue = 20;
+        // Variables to hold color values
+        int colorBottomCube, colorTopLeftCube, colorTopRightCube;
+    
+        // Define colors based on the scene
+        switch(scene) {
+            case 1:
+                colorBottomCube = parent.color(180, 155, 255);
+                colorTopLeftCube = parent.color(300, 155, 255);
+                colorTopRightCube = parent.color(60, 190, 255);
+                bandColor = 180;
+                bandSaturation = 155;
+                break;
+            case 2:
+                colorBottomCube = parent.color(60, 190, 255);
+                colorTopLeftCube = parent.color(180, 155, 255);
+                colorTopRightCube = parent.color(300, 155, 255);
+                bandColor = 60;
+                bandSaturation = 190;
+                break;
+            case 3:
+                colorBottomCube = parent.color(300, 155, 255);
+                colorTopLeftCube = parent.color(60, 190, 255);
+                colorTopRightCube = parent.color(180, 155, 255);
+                bandColor = 300;
+                bandSaturation = 155;
+                break;
+            default:
+                colorBottomCube = colorTopLeftCube = colorTopRightCube = parent.color(0, 0, 255);
         }
-        else if (scene == 2) {
-            hue = 50;
-        }
-        else if (scene == 3) {
-            hue = 80;
-        }
-
+    
         if (parent instanceof Visual) {
             ((Visual)parent).calculateAverageAmplitude();
         }
@@ -71,33 +99,24 @@ public class SeanVisuals extends Visual{
         float baseY = map(amplitude, 0, 1, parent.height * 0.9f, parent.height * 0.1f);
     
         parent.lights();
+        parent.noStroke();
     
-        // Set color for cubes
-        //float hue = (parent.frameCount * 10 + 360 * (parent.width / 2 + parent.width) / (2 * parent.width)) % 360;
-        float alpha = map(amplitude, 0, 1, 10, 255);  // Adjust alpha based on amplitude for a pulsating effect
-        parent.fill(hue, 255, 255, alpha);  
-        parent.noStroke();  
+        float sizeMod = 1.0f; // Assuming a sizeMod value for scale adjustment
     
-        // Calculate cube size based on amplitude
-        float size = 1000 * (0.5f + 1.1f * amplitude);
+        // Coordinates and drawing for the bottom cube
+        float bottomX = parent.width * 0.5f;
+        float bottomY = baseY;
+        drawSingleCube(bottomX, bottomY, 1.45f, colorBottomCube);
     
-        // Coordinates for the bottom cube
-        float bottomX = parent.width * 0.5f; // Center of the screen
-        float bottomY = baseY; // Calculated base Y position
+        // Coordinates and drawing for the top left and right cubes
+        float topXOffset = 1800;
+        float topY = bottomY - (1000 * (0.5f + 1.1f * amplitude) * sizeMod * 0.8f);
+        drawSingleCube(bottomX - topXOffset, topY, 1, colorTopLeftCube);
+        drawSingleCube(bottomX + topXOffset, topY, 1, colorTopRightCube);
     
-        // Coordinates for the top cubes
-        float topXOffset = 1800; // Horizontal distance from the center to each top cube
-        float topY = bottomY - size * 0.8f; // Position top cubes slightly above the bottom cube
-    
-        // Draw the bottom cube
-        drawSingleCube(bottomX, bottomY);
-    
-        // Draw the top left and right cubes
-        drawSingleCube(bottomX - topXOffset, topY);
-        drawSingleCube(bottomX + topXOffset, topY);
-    
-        angle += 0.05; // Increment rotation angle
+        angle += 0.05;
     }
+    
     
     
     
@@ -124,6 +143,7 @@ public class SeanVisuals extends Visual{
     }
 
     public void draw() {
+
         // // dynamic cam
         // float fov = PApplet.PI / 6;  // A moderate field of view for a good initial perspective
         // if (parent.mouseX != 0) {  // Check if the mouse has moved from the default position
@@ -155,7 +175,8 @@ public class SeanVisuals extends Visual{
                         parent.width / 2.0f, cameraY, 0, 
                         0, 1, 0);
 
-        parent.background(0);  // Clear the screen
+        parent.background(bgHue, 255, bgBrightness);  // Set background color
+
         drawCube();
     }
 }
