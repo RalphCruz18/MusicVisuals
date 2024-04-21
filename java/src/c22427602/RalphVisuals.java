@@ -173,35 +173,35 @@ public class RalphVisuals extends Visual {
 
     public void draw() {
         // // dynamic cam
-        // float fov = PApplet.PI / 6;  // A moderate field of view for a good initial perspective
-        // if (parent.mouseX != 0) {  // Check if the mouse has moved from the default position
-        //     fov = parent.mouseX / (float) parent.width * PApplet.PI / 2;
-        // }
+        float fov = PApplet.PI / 6;  // A moderate field of view for a good initial perspective
+        if (parent.mouseX != 0) {  // Check if the mouse has moved from the default position
+            fov = parent.mouseX / (float) parent.width * PApplet.PI / 2;
+        }
 
-        // cameraY = parent.height / 1.5f;  // Start with the camera at half the height of the window
-        // float cameraZ = cameraY / PApplet.tan(fov / 2.0f);  // Calculate camera Z based on the updated FOV
+        cameraY = parent.height / 1.5f;  // Start with the camera at half the height of the window
+        float cameraZ = cameraY / PApplet.tan(fov / 2.0f);  // Calculate camera Z based on the updated FOV
 
-        // parent.perspective(fov, (float) parent.width / (float) parent.height, cameraZ / 10.0f, cameraZ * 10.0f);
+        parent.perspective(fov, (float) parent.width / (float) parent.height, cameraZ / 10.0f, cameraZ * 10.0f);
 
-        // // Calculate angle for circular camera movement
-        // float angle = parent.frameCount * 0.03f; // Change 0.01 to adjust speed of rotation
-        // cameraX = parent.width / 2.0f + cameraZ * PApplet.sin(angle);
-        // float cameraZPosition = cameraZ * PApplet.cos(angle);
+        // Calculate angle for circular camera movement
+        float angle = parent.frameCount * 0.05f; // Change 0.01 to adjust speed of rotation
+        cameraX = parent.width / 2.0f + cameraZ * PApplet.sin(angle);
+        float cameraZPosition = cameraZ * PApplet.cos(angle);
 
-        // // Updated camera setup to circle around the sphere
-        // parent.camera(cameraX, cameraY, cameraZPosition, 
-        //             parent.width / 2.0f, cameraY, 0, 
-        //             0, 1, 0);
+        // Updated camera setup to circle around the sphere
+        parent.camera(cameraX, cameraY, cameraZPosition, 
+                    parent.width / 2.0f, cameraY, 0, 
+                    0, 1, 0);
 
-        //Static cam
-        float fov = PApplet.PI / 3;
-        float cameraY = parent.height / 2.0f;
-        float cameraZ = (cameraY / PApplet.tan(fov / 2.0f)) * 4; // Increase distance
+        // //Static cam
+        // float fov = PApplet.PI / 3;
+        // float cameraY = parent.height / 2.0f;
+        // float cameraZ = (cameraY / PApplet.tan(fov / 2.0f)) * 4; // Increase distance
     
-        parent.perspective(fov, (float) parent.width / (float) parent.height, 1, 10000);
-        parent.camera(parent.width / 2.0f, cameraY, cameraZ, 
-                        parent.width / 2.0f, cameraY, 0, 
-                        0, 1, 0);
+        // parent.perspective(fov, (float) parent.width / (float) parent.height, 1, 10000);
+        // parent.camera(parent.width / 2.0f, cameraY, cameraZ, 
+        //                 parent.width / 2.0f, cameraY, 0, 
+        //                 0, 1, 0);
 
         parent.background(0);  // Clear the screen
         drawStars();

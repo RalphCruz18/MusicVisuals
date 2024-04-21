@@ -15,10 +15,7 @@ public class Seno extends Visual {
     private boolean drawCube = false;
     ArrayList<Lyric> lyrics = new ArrayList<Lyric>();
 
-
     int bgColor = color(0);  //Adjusting the background colour. Default to black
-
-    
 
     public void settings() {
         fullScreen(P3D, SPAN);
@@ -112,9 +109,6 @@ public class Seno extends Visual {
         else if (drawCube) {
             Sean.draw(); 
         }
-
-
-
         // SEPARATION //
     
         hint(DISABLE_DEPTH_TEST);
