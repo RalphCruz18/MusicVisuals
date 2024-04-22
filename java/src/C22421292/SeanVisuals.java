@@ -152,12 +152,12 @@ public class SeanVisuals extends Visual{
             ((Visual)parent).calculateAverageAmplitude();
         }
         float amplitude = ((Visual)parent).getSmoothedAmplitude();
-        // Start higher and move vertically based on amplitude
-        float yPosition = parent.height-15000 * 0.2f + map(amplitude, 0, 1, 50, -50); // Starts near the top and moves slightly
+        //Start higher and move vertically based on amplitude
+        float yPosition = parent.height-15000 * 0.2f + map(amplitude, 0, 1, 50, -50);
     
-        // Start closer to the top left corner
-        float baseX = parent.width * -0.9f; // Closer to the left edge
-        float oscillationRange = parent.width * 0.4f * amplitude; // Less horizontal movement range
+        //Start closer to the top left corner
+        float baseX = parent.width * -0.9f;
+        float oscillationRange = parent.width * 0.4f * amplitude;
         float xPosition = baseX - oscillationRange * sin(parent.frameCount * 0.05f);
     
         parent.lights();
@@ -179,12 +179,12 @@ public class SeanVisuals extends Visual{
             ((Visual)parent).calculateAverageAmplitude();
         }
         float amplitude = ((Visual)parent).getSmoothedAmplitude();
-        // Start higher and move vertically based on amplitude
-        float yPosition = parent.height-15000 * 0.2f + map(amplitude, 0, 1, 50, -50); // Starts near the top and moves slightly
+        //Start higher and move vertically based on amplitude
+        float yPosition = parent.height-15000 * 0.2f + map(amplitude, 0, 1, 50, -50);
     
-        // Start closer to the top right corner
-        float baseX = parent.width+2400 * 0.9f; // Closer to the right edge
-        float oscillationRange = parent.width * 0.4f * amplitude; // Less horizontal movement range
+        //Start closer to the top right corner
+        float baseX = parent.width+2400 * 0.9f;
+        float oscillationRange = parent.width * 0.4f * amplitude;
         float xPosition = baseX + oscillationRange * sin(parent.frameCount * 0.05f);
     
         parent.lights();
@@ -202,22 +202,19 @@ public class SeanVisuals extends Visual{
     }
 
     public void draw() {
-        //Static cam
-        float fov = PApplet.PI / 3;
-        float cameraY = parent.height / 2.0f;
-        float cameraZ = (cameraY / PApplet.tan(fov / 2.0f)) * 4; // Increase distance
-        parent.perspective(fov, (float) parent.width / (float) parent.height, 1, 10000);
-        parent.camera(parent.width / 2.0f, cameraY, cameraZ, 
-                        parent.width / 2.0f, cameraY, 0, 
-                        0, 1, 0);
-        parent.background(bgHue, 255, bgBrightness);  // Set background color
+        float fov = PApplet.PI / 3; //Calculate fov of camera
+        float cameraY = parent.height / 2.0f; //Calculate height of camera
+        float cameraZ = (cameraY / PApplet.tan(fov / 2.0f)) * 4; //Calculate distance of camera to scene
+        parent.perspective(fov, (float) parent.width / (float) parent.height, 1, 10000); //Set fov and distance of camera
+        parent.camera(parent.width / 2.0f, cameraY, cameraZ, parent.width / 2.0f, cameraY, 0, 0, 1, 0); //Make camera in set position
+        parent.background(bgHue, 255, bgBrightness); //Set background color
 
-        drawStars();  //Draw stars
-        drawCube();   //Draw the cubes
+        drawStars(); //Draw stars
+        drawCube(); //Draw the cubes
         drawSpheres(); //Draw both top left and top right sphere
 
         if (spamMode) {
-            sceneChange();  // This function now only changes the scene state without drawing
+            sceneChange(); //Call sceneChange function A LOT
         }
     }
 }
