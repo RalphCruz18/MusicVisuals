@@ -14,7 +14,7 @@ public class Seno extends Visual {
     private boolean drawCube = false;
     ArrayList<Lyric> lyrics = new ArrayList<Lyric>();
 
-    AudioBandsVisual abv;
+    AudioBandsVisual audioBands;
     
 
     public void settings() {
@@ -37,7 +37,7 @@ public class Seno extends Visual {
 
         loadLyrics();
 
-        abv = new AudioBandsVisual(this);
+        audioBands = new AudioBandsVisual(this);
     }
 
     void loadLyrics() {
@@ -120,7 +120,7 @@ public class Seno extends Visual {
         }
         else if (drawCube) {
             Sean.draw(); 
-            abv.render(Sean.bandColor, Sean.bandSaturation);
+            audioBands.render(Sean.bandColor, Sean.bandSaturation);
         }
 
 
@@ -173,13 +173,13 @@ public class Seno extends Visual {
                 drawSphere = true;  // Enable drawing the sphere
                 drawCube = false;
                 //Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
-                println("Ralph Scene");
                 break;
             case '2':
                 drawSphere = false; // Disable drawing the sphere to show only cube
                 drawCube = true;
-                println("Sean Scene");
                 Sean.sceneChange();
+                noFill();
+                noTint();
                 break;
             case ' ':
                 if (getAudioPlayer().isPlaying()) {
@@ -191,6 +191,8 @@ public class Seno extends Visual {
                 drawSphere = false;
                 drawCube = false;
                 break;
+            case 's':
+                Sean.spamMode();
             default:
                 println("No function assigned to this key");
         }

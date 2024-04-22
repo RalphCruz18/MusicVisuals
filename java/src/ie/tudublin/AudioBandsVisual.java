@@ -14,10 +14,6 @@ public class AudioBandsVisual extends PApplet
 
     public void render(int bandColor, int bandSaturation)
     {
-        println("render function");
-        println("bandColor: " + bandColor);
-        println("bandSaturation: " + bandSaturation);
-
         float gap = mv.width / (float) mv.getBands().length * 4.0f;
         mv.noStroke();
         mv.fill(bandColor, bandSaturation, 255);

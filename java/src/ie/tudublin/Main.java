@@ -1,11 +1,11 @@
 package ie.tudublin;
 
-import ddf.minim.ugens.Waveform;
-import example.AudioBandsVisual;
-import example.CubeVisual;
-import example.CubeVisual1;
-import example.MyVisual;
-import example.RotatingAudioBands;
+//import ddf.minim.ugens.Waveform;
+//import example.AudioBandsVisual;
+//import example.CubeVisual;
+//import example.CubeVisual1;
+//import example.MyVisual;
+//import example.RotatingAudioBands;
 
 public class Main {
 
