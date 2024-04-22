@@ -120,7 +120,7 @@ public class Seno extends Visual {
         }
         else if (drawCube) {
             Sean.draw(); 
-            audioBands.render(Sean.bandColor, Sean.bandSaturation);
+            audioBands.render(Sean.bandColor);
         }
 
 
