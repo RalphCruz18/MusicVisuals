@@ -134,7 +134,6 @@ public class SeanVisuals extends Visual{
     
             parent.fill(parent.color(bandColor, 128));
             parent.translate(star.x, dynamicY, star.z);
-    
             float size = 10 + 5 * sin(parent.frameCount / 40.0f);
             parent.sphere(size);
     
@@ -142,7 +141,7 @@ public class SeanVisuals extends Visual{
         }
     }
 
-    private void drawSpheres() {
+    private void drawSpheres() { //Draw both spheres using single function
         drawLeftSphere();
         drawRightSphere();
     }
@@ -152,10 +151,8 @@ public class SeanVisuals extends Visual{
             ((Visual)parent).calculateAverageAmplitude();
         }
         float amplitude = ((Visual)parent).getSmoothedAmplitude();
-        //Start higher and move vertically based on amplitude
         float yPosition = parent.height-15000 * 0.2f + map(amplitude, 0, 1, 50, -50);
     
-        //Start closer to the top left corner
         float baseX = parent.width * -0.9f;
         float oscillationRange = parent.width * 0.4f * amplitude;
         float xPosition = baseX - oscillationRange * sin(parent.frameCount * 0.05f);
@@ -179,10 +176,8 @@ public class SeanVisuals extends Visual{
             ((Visual)parent).calculateAverageAmplitude();
         }
         float amplitude = ((Visual)parent).getSmoothedAmplitude();
-        //Start higher and move vertically based on amplitude
         float yPosition = parent.height-15000 * 0.2f + map(amplitude, 0, 1, 50, -50);
     
-        //Start closer to the top right corner
         float baseX = parent.width+2400 * 0.9f;
         float oscillationRange = parent.width * 0.4f * amplitude;
         float xPosition = baseX + oscillationRange * sin(parent.frameCount * 0.05f);
