@@ -5,11 +5,10 @@ import processing.core.PVector;
 import processing.core.PApplet;
 import processing.core.PMatrix3D;
 import java.util.ArrayList;
-import processing.core.PShape;
 
 public class RalphVisuals extends Visual {
     private PApplet parent;  // Reference to PApplet app
-    private float angle = 0.0f;  // Angle for sine wave calculation
+    public float angle = 0.0f;  // Angle for sine wave calculation
     private ArrayList<PVector> stars;  // Store positions of stars
     private float currentX = 0;
     private float targetX = 0;
