@@ -197,6 +197,12 @@ public class Seno extends Visual {
         }
     }
 
+    public void mousePressed() {
+        if (drawSphere) { // Assume you want camera toggling only when RalphVisuals is active
+            Ralph.mousePressed();
+        }
+    }
+
     private void restoreLastScene() {
         println("Last scene: " + currentScene);
         switch(currentScene) {
