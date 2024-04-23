@@ -17,8 +17,8 @@ Student Number: C22421292 & C22427602
 Using keyboard keys ‘1’ and ‘2’ you can change scenes:
 !['1'](https://i.imgur.com/s2JUPJh.png)
 !['2'](https://i.imgur.com/7RC3WF0.png)
-!['2 again']([https://i.imgur.com/7RC3WF0.png](https://i.imgur.com/lPGM8d2.png))
-!['2 again again']([https://i.imgur.com/7RC3WF0.png](https://i.imgur.com/l2kReYW.png))
+!['2 again'](https://i.imgur.com/lPGM8d2.png)
+!['2 again again'](https://i.imgur.com/l2kReYW.png)
 
 ‘ ‘ (spacebar) pauses and plays the song
 ![' '](https://i.imgur.com/J8qGTCL.png)
