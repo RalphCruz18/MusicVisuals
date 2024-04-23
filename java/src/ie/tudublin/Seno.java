@@ -164,6 +164,21 @@ public class Seno extends Visual {
                 drawCube = false;
                 Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
                 break;
+                case 'q': // Increase sphere size
+                    Ralph.increaseSphereSize();
+                    break;
+                case 'w': // Increase sphere size
+                    Ralph.increaseSphereSize();
+                    break;
+                case 'o': // Increase camera speed
+                    Ralph.increaseCameraSpeed();
+                    break;
+                case 'p': // Increase camera speed
+                    Ralph.increaseCameraSpeed();
+                    break;
+                case 'i': // Toggle sporadic movement
+                    Ralph.toggleSporadicMovement();
+                    break;
             case '2': //Scene 2
                 currentScene = 2;
                 drawSphere = false; //Disable drawing the sphere to show only cube
@@ -182,6 +197,7 @@ public class Seno extends Visual {
                 if(resetScreen==false) {
                     drawSphere = false;
                     drawCube = false;
+                    Ralph.clearStars();
                     resetScreen = true;
                 }
                 else {

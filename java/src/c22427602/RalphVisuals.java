@@ -17,6 +17,10 @@ public class RalphVisuals extends Visual {
     public float x, y, z = 0;
     private int cameraMode = 1;
 
+    private float sphereSizeMultiplier = 1.0f;
+    private float cameraSpeedMultiplier = 1.0f;
+    private boolean sporadicMovement = false;
+
     // Method to set the parent PApplet
     public void setParent(PApplet parent) {
         this.parent = parent;
@@ -36,6 +40,35 @@ public class RalphVisuals extends Visual {
         }
     }
 
+    public void clearStars() {
+        stars.clear();
+    }
+
+    public void increaseSphereSize() {
+        sphereSizeMultiplier += 0.5; // Increment the size multiplier
+        System.out.println("Sphere size increased to: " + sphereSizeMultiplier);
+    }
+
+    public void decreaseSphereSize() {
+        sphereSizeMultiplier -= 0.5; // Increment the size multiplier
+        System.out.println("Sphere size increased to: " + sphereSizeMultiplier);
+    }
+
+    public void increaseCameraSpeed() {
+        cameraSpeedMultiplier += 0.1; // Increment the speed multiplier
+        System.out.println("Camera speed increased to: " + cameraSpeedMultiplier);
+    }
+
+    public void decreaseCameraSpeed() {
+        cameraSpeedMultiplier -= 0.1; // Increment the speed multiplier
+        System.out.println("Camera speed increased to: " + cameraSpeedMultiplier);
+    }
+
+    public void toggleSporadicMovement() {
+        sporadicMovement = !sporadicMovement; // Toggle the sporadic movement flag
+        System.out.println("Sporadic movement toggled. Now set to: " + sporadicMovement);
+    }
+
     private void drawStars() {
         float amplitude = parent instanceof Visual ? ((Visual)parent).getSmoothedAmplitude() : 0;
         for (PVector star : stars) {
@@ -47,14 +80,25 @@ public class RalphVisuals extends Visual {
             float brightness = 100 + 155 * (0.5f * (1 + sin(parent.frameCount / 30.0f + star.y)));
             float bopAmplitude = 30 * amplitude;
             float rate = map(star.x, -parent.width, parent.width, 5.0f, 15.0f);
+
+
             float dynamicY = star.y + bopAmplitude * sin(parent.frameCount/rate);
+            float dynamicX = star.x; 
+            float dynamicZ = star.z;
+            float size = 10 + 5 * sin(parent.frameCount / 40.0f);
+
+            if (sporadicMovement) {
+                dynamicY += parent.random(-50, 50);
+                dynamicY += parent.random(-50, 50); 
+                dynamicZ += parent.random(-50, 50); 
+                size *= (1 + parent.random(-0.5f, 0.5f));
+            }
 
             parent.fill(parent.color(hue, 255, brightness, 128)); 
-            parent.translate(star.x, dynamicY, star.z);
+            parent.translate(dynamicX, dynamicY, dynamicZ);
 
-            float size = 10 + 5 * sin(parent.frameCount / 40.0f);
+            
             parent.sphere(size);
-
             parent.popMatrix();
         }
     }
@@ -82,11 +126,11 @@ public class RalphVisuals extends Visual {
         // Sphere settings
         int detail = (int) map(amplitude, 0, 1, 6, 24);
         parent.sphereDetail(detail);
-        float size = 300 * (0.5f + 4.5f * amplitude);  
+        float size = 300 * (0.5f + 4.5f * amplitude * sphereSizeMultiplier) ;  
     
         parent.pushMatrix();
         parent.translate(currentX, yPosition, -200);
-        parent.sphere(300*(amplitude*5));
+        parent.sphere(size*(amplitude*sphereSizeMultiplier));
         parent.popMatrix();
 
         addShell(currentX, yPosition, size + 20, 60, 160);  // Slightly larger than the sphere
@@ -111,7 +155,7 @@ public class RalphVisuals extends Visual {
         }
         float outerAlpha = alpha / 4; // More subtle than the inner halo
         parent.stroke(outerHue, 100, 255, outerAlpha); // More saturated and less transparent
-        parent.sphere(size + 20); // Slightly larger radius for the outer halo
+        parent.sphere(size + 20 * sphereSizeMultiplier); // Slightly larger radius for the outer halo
 
         parent.popMatrix();
     }
@@ -121,10 +165,10 @@ public class RalphVisuals extends Visual {
         parent.translate(x, y, -200);
     
         // Calculate the orbit radius to ensure it's clearly separated from the sphere
-        float orbitRadius = baseSize + 170; // Increased for clear separation
+        float orbitRadius = baseSize + 170 * sphereSizeMultiplier; // Increased for clear separation
     
         // Radius outside of orbit radius
-        float visualRadius = orbitRadius + 10;
+        float visualRadius = orbitRadius + 10 * sphereSizeMultiplier;
     
         // Interpolated angle for rotation
         float startAngle = PApplet.PI / 2;
@@ -138,7 +182,7 @@ public class RalphVisuals extends Visual {
         parent.stroke(hue, 255, 255, alpha); 
         parent.strokeWeight(5); 
         float diameter = visualRadius * 2;
-        parent.ellipse(0, 0, diameter, diameter + 20); 
+        parent.ellipse(0, 0, diameter, diameter + 20 * sphereSizeMultiplier); 
         parent.popMatrix();
     }
     
@@ -195,7 +239,8 @@ public class RalphVisuals extends Visual {
     
             parent.perspective(fov, (float) parent.width / (float) parent.height, cameraZ / 10.0f, cameraZ * 10.0f);
     
-            float angle = parent.frameCount * 0.05f; // This can be adjusted for speed
+            float angleIncrement = 0.05f * cameraSpeedMultiplier; // Apply speed multiplier
+            angle += angleIncrement;
             cameraX = parent.width / 2.0f + cameraZ * PApplet.sin(angle);
             float cameraZPosition = cameraZ * PApplet.cos(angle);
     
@@ -215,5 +260,7 @@ public class RalphVisuals extends Visual {
             System.out.println("Camera mode toggled to: " + cameraMode);
         }
     }
+
+    
     
 }
