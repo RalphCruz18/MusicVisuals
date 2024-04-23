@@ -49,7 +49,7 @@ public class SeanVisuals extends Visual{
         parent.translate(xPosition, yPosition, -200); //Position cube
         parent.rotateX(PApplet.radians(-15)); //Tilt cubes downwards
         parent.rotateY(-angle); //Rotate anti-clockwise
-        float size = 1000 * (0.5f + 1.1f * amplitude); //Cube size based on amplitude
+        float size = 740 * (0.5f + 1.1f * amplitude); //Cube size based on amplitude
         parent.fill(cubeColor); //Fill cubes with color
         parent.box(size*sizeMod); //Draw the cube
         parent.popMatrix();
@@ -134,7 +134,7 @@ public class SeanVisuals extends Visual{
     
             parent.fill(parent.color(bandColor, 128));
             parent.translate(star.x, dynamicY, star.z);
-            float size = 10 + 5 * sin(parent.frameCount / 40.0f);
+            float size = 7 + 5 * sin(parent.frameCount / 40.0f);
             parent.sphere(size);
     
             parent.popMatrix();
@@ -151,9 +151,9 @@ public class SeanVisuals extends Visual{
             ((Visual)parent).calculateAverageAmplitude();
         }
         float amplitude = ((Visual)parent).getSmoothedAmplitude();
-        float yPosition = parent.height-15000 * 0.2f + map(amplitude, 0, 1, 50, -50);
+        float yPosition = parent.height - 2222 + map(amplitude, 0, 1, 50, -50);
     
-        float baseX = parent.width * -0.9f;
+        float baseX = parent.width * -1.13f;
         float oscillationRange = parent.width * 0.4f * amplitude;
         float xPosition = baseX - oscillationRange * sin(parent.frameCount * 0.05f);
     
@@ -176,7 +176,7 @@ public class SeanVisuals extends Visual{
             ((Visual)parent).calculateAverageAmplitude();
         }
         float amplitude = ((Visual)parent).getSmoothedAmplitude();
-        float yPosition = parent.height-15000 * 0.2f + map(amplitude, 0, 1, 50, -50);
+        float yPosition = parent.height - 2222 + map(amplitude, 0, 1, 50, -50);
     
         float baseX = parent.width+2400 * 0.9f;
         float oscillationRange = parent.width * 0.4f * amplitude;
