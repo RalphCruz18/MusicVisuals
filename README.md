@@ -14,6 +14,22 @@ Student Number: C22421292 & C22427602
 # Description of the assignment
 
 # Instructions
+Using keyboard keys ‘1’ and ‘2’ you can change scenes:
+!['1'](https://i.imgur.com/s2JUPJh.png)
+!['2'](https://i.imgur.com/7RC3WF0.png)
+!['2 again']([https://i.imgur.com/7RC3WF0.png](https://i.imgur.com/lPGM8d2.png))
+!['2 again again']([https://i.imgur.com/7RC3WF0.png](https://i.imgur.com/l2kReYW.png))
+
+‘ ‘ (spacebar) pauses and plays the song
+![' '](https://i.imgur.com/J8qGTCL.png)
+![' ' again](https://i.imgur.com/7RC3WF0.png)
+
+‘r’ clears the current scene just leaving the screen black with the lyrics still playing
+!['r'](https://i.imgur.com/YgO8pgW.png)
+!['r again'](https://i.imgur.com/dPyangf.png)
+
+‘s’ enters “spam mode” on when scene 2 is active. Spam mode just calls the “sceneChange” function in SeanVisuals.java very fast.
+Not actually screenshotable because it uses motion and screenshots are freezeframes.
 
 # How it works
 
