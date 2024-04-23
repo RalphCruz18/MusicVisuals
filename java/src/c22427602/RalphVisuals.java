@@ -50,8 +50,8 @@ public class RalphVisuals extends Visual {
     }
 
     public void decreaseSphereSize() {
-        sphereSizeMultiplier -= 0.5; // Increment the size multiplier
-        System.out.println("Sphere size increased to: " + sphereSizeMultiplier);
+        sphereSizeMultiplier -= 0.5; 
+        System.out.println("Sphere size decreased to: " + sphereSizeMultiplier);
     }
 
     public void increaseCameraSpeed() {
@@ -60,8 +60,8 @@ public class RalphVisuals extends Visual {
     }
 
     public void decreaseCameraSpeed() {
-        cameraSpeedMultiplier -= 0.1; // Increment the speed multiplier
-        System.out.println("Camera speed increased to: " + cameraSpeedMultiplier);
+        cameraSpeedMultiplier -= 0.1; 
+        System.out.println("Camera speed decreased to: " + cameraSpeedMultiplier);
     }
 
     public void toggleSporadicMovement() {

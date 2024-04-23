@@ -167,14 +167,14 @@ public class Seno extends Visual {
                 case 'q': // Increase sphere size
                     Ralph.increaseSphereSize();
                     break;
-                case 'w': // Increase sphere size
-                    Ralph.increaseSphereSize();
+                case 'w': // Decrease sphere size
+                    Ralph.decreaseSphereSize();
                     break;
                 case 'o': // Increase camera speed
                     Ralph.increaseCameraSpeed();
                     break;
-                case 'p': // Increase camera speed
-                    Ralph.increaseCameraSpeed();
+                case 'p': // Decrease camera speed
+                    Ralph.decreaseCameraSpeed();
                     break;
                 case 'i': // Toggle sporadic movement
                     Ralph.toggleSporadicMovement();
