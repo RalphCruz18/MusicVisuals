@@ -34,6 +34,7 @@ Not actually screenshotable because it uses motion and screenshots are freezefra
 # How it works
 
 # What I am most proud of in the assignment
+I am most proud of making a scene that I beleive is fun to watch and interactable in many ways which can keep the user entertained and interested. There are many objects that move based on the music which makes it visually apealing and being able to change the appearance using keyboard keys makes it interesting.
 
 # Markdown Tutorial
 
