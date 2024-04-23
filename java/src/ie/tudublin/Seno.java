@@ -15,6 +15,8 @@ public class Seno extends Visual {
     ArrayList<Lyric> lyrics = new ArrayList<Lyric>();
 
     AudioBandsVisual audioBands;
+    int currentScene;
+    boolean resetScreen = false;
     
 
     public void settings() {
@@ -24,7 +26,7 @@ public class Seno extends Visual {
     
     public void setup() {
         colorMode(HSB, 360, 255, 255);
-        //noCursor();
+        noCursor();
         startMinim();
         loadAudio("Renai Circulation恋愛サーキュレーションKana Hanazawa.mp3");
         getAudioPlayer().play();
@@ -167,34 +169,62 @@ public class Seno extends Visual {
     }
 
     public void keyPressed() {
-        println("Key pressed: " + key);  // Debug output to check key press
+        println("Key pressed: " + key);  //Debug output to check key press
         switch(key) {
-            case '1':
-                drawSphere = true;  // Enable drawing the sphere
+            case '1': //Scene 1
+                currentScene = 1;
+                drawSphere = true;  //Enable drawing the sphere
                 drawCube = false;
-                //Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
+                Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
                 break;
-            case '2':
-                drawSphere = false; // Disable drawing the sphere to show only cube
+            case '2': //Scene 2
+                currentScene = 2;
+                drawSphere = false; //Disable drawing the sphere to show only cube
                 drawCube = true;
                 Sean.sceneChange();
-                noFill();
-                noTint();
                 break;
-            case ' ':
+            case ' ': //play and pause
                 if (getAudioPlayer().isPlaying()) {
                     getAudioPlayer().pause();
                 } else {
                     getAudioPlayer().play();
                 }
-            case 'r':
+                restoreLastScene();
+                break;
+            case 'r': //Clear screen
+                if(resetScreen==false) {
+                    drawSphere = false;
+                    drawCube = false;
+                    resetScreen = true;
+                }
+                else {
+                    resetScreen = false;
+                    restoreLastScene();
+                }
+                break;
+            case 's': //enable/disable spam mode
+                Sean.spamMode();
+            default: //Print console message if pressed key has no use
+                println("No function assigned to this key");
+                break;
+        }
+    }
+
+    private void restoreLastScene() {
+        println("Last scene: " + currentScene);
+        switch(currentScene) {
+            case 1:
+                drawSphere = true;
+                drawCube = false;
+                break;
+            case 2:
+                drawSphere = false;
+                drawCube = true;
+                break;
+            default:
                 drawSphere = false;
                 drawCube = false;
                 break;
-            case 's':
-                Sean.spamMode();
-            default:
-                println("No function assigned to this key");
         }
     }
 }
