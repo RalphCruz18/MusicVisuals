@@ -3,7 +3,6 @@ package ie.tudublin;
 import c22427602.RalphVisuals;
 import c22421292.SeanVisuals;
 
-import processing.core.PApplet;
 import processing.core.PMatrix3D;
 import java.util.ArrayList;
 import processing.core.PVector;
@@ -15,19 +14,22 @@ public class Seno extends Visual {
     private boolean drawCube = false;
     ArrayList<Lyric> lyrics = new ArrayList<Lyric>();
 
-    int bgColor = color(0);  //Adjusting the background colour. Default to black
+    AudioBandsVisual audioBands; //Variable to store audioband file.
+    int currentScene; //Used to redraw current scene after pressing spacebar or 'r'
+    boolean resetScreen = false; //Used to keep track of if the screen was cleared
+    
 
     public void settings() {
+        size(1920, 1080, P3D);
         fullScreen(P3D, SPAN);
-        //size(300, 300, P3D);
     }
     
     public void setup() {
-        colorMode(HSB, 360, 255, 255);
-        //noCursor();
-        startMinim();
-        loadAudio("Renai Circulation恋愛サーキュレーションKana Hanazawa.mp3");
-        getAudioPlayer().play();
+        colorMode(HSB, 360, 255, 255); //Set HSB color mode
+        noCursor(); //Disable cursor on screen
+        startMinim(); //Start audio engine
+        loadAudio("Renai Circulation恋愛サーキュレーションKana Hanazawa.mp3"); //Load song
+        getAudioPlayer().play(); //Play the song
 
         Ralph = new RalphVisuals();  // Instantiate Ralph object
         Ralph.setParent(this);
@@ -36,9 +38,11 @@ public class Seno extends Visual {
         Sean.setParent(this);
 
         loadLyrics();
+
+        audioBands = new AudioBandsVisual(this); //Import audiobands file
     }
 
-    void loadLyrics() {
+    void loadLyrics() { //Load lyrics from srt file
         String[] lines = loadStrings("[Japanese] Renai Circulation「恋愛サーキュレーション」Kana Hanazawa [DownSub.com].srt");
         int i = 0;
         while (i < lines.length) {
@@ -88,8 +92,7 @@ public class Seno extends Visual {
         }
     }
     
-    // Calculates the vector of the camera facing direction
-    public float[] getCameraNormal() {
+    public float[] getCameraNormal() { //Calculates the vector of the camera facing direction
         PMatrix3D m = (PMatrix3D)this.g.getMatrix();
         float[] camNormal = new float[3];
         camNormal[0] = -m.m02;
@@ -99,17 +102,25 @@ public class Seno extends Visual {
     }
 
     public void draw() {
-        background(bgColor);
+        background(0);
 
+        try {
+            calculateFFT();
+        } catch (VisualException e) {
+            e.printStackTrace();
+        }
+        calculateFrequencyBands();
+    
         float currentTime = getAudioPlayer().position() / 1000.0f;
     
         if (drawSphere) {
-            Ralph.draw(); 
+            Ralph.draw();
+            audioBands.render(Sean.bandColor);
         }
         else if (drawCube) {
             Sean.draw(); 
+            audioBands.render(Sean.bandColor);
         }
-        // SEPARATION //
     
         hint(DISABLE_DEPTH_TEST);
     
@@ -117,7 +128,7 @@ public class Seno extends Visual {
         textAlign(CENTER, BOTTOM);
     
         // Get the rotation angles from RalphVisuals
-        PVector rotationAngles = Ralph.getCameraRotation();  //EULAR ANGLES
+        PVector rotationAngles = Ralph.getCameraRotation();  //Eular angles
         colorMode(HSB, 360, 255, 255, 255);
 
         for (Lyric lyric : lyrics) {
@@ -132,16 +143,10 @@ public class Seno extends Visual {
                 rotateX(rotationAngles.x);
                 rotateY(rotationAngles.y);
                 rotateZ(rotationAngles.z);
-    
-                // colourful lyrics
-                // float hue = (frameCount * 10 + 360 * (width / 2 + width) / (2 * width)) % 360;
-                // float brightness = 100 + 155 * (0.5f * (1 + sin(frameCount / 30.0f)));
-                // fill(color(hue, 255, brightness, 128));
 
-                // white lyrics
-                fill(lyricColor);
+                fill(lyricColor); //white lyrics
 
-                text(lyric.text, 0, 0); // Draw at the adjusted position
+                text(lyric.text, 0, 0); //Draw at the adjusted position
                 popMatrix();
                 break;
             }
@@ -151,30 +156,62 @@ public class Seno extends Visual {
     }
 
     public void keyPressed() {
-        println("Key pressed: " + key);  // Debug output to check key press
+        println("Key pressed: " + key);  //Debug output to check key press
         switch(key) {
-            case '1':
-                drawSphere = true;  // Enable drawing the sphere
+            case '1': //Scene 1
+                currentScene = 1;
+                drawSphere = true;  //Enable drawing the sphere
                 drawCube = false;
                 Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
-                bgColor=color(0);
                 break;
-            case '2':
-                bgColor=color(30, 255, 255);
-                drawSphere = false; // Disable drawing the sphere to show only cube
+            case '2': //Scene 2
+                currentScene = 2;
+                drawSphere = false; //Disable drawing the sphere to show only cube
                 drawCube = true;
+                Sean.sceneChange();
                 break;
-            case ' ':
+            case ' ': //play and pause
                 if (getAudioPlayer().isPlaying()) {
                     getAudioPlayer().pause();
                 } else {
                     getAudioPlayer().play();
                 }
-            case 'r':
+                restoreLastScene();
+                break;
+            case 'r': //Clear screen
+                if(resetScreen==false) {
+                    drawSphere = false;
+                    drawCube = false;
+                    resetScreen = true;
+                }
+                else {
+                    resetScreen = false;
+                    restoreLastScene();
+                }
+                break;
+            case 's': //enable/disable spam mode
+                Sean.spamMode();
+            default: //Print console message if pressed key has no use
+                println("No function assigned to this key");
+                break;
+        }
+    }
+
+    private void restoreLastScene() {
+        println("Last scene: " + currentScene);
+        switch(currentScene) {
+            case 1:
+                drawSphere = true;
+                drawCube = false;
+                break;
+            case 2:
                 drawSphere = false;
+                drawCube = true;
                 break;
             default:
-                println("No function assigned to this key");
+                drawSphere = false;
+                drawCube = false;
+                break;
         }
     }
 }

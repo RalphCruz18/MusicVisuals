@@ -14,11 +14,11 @@ public abstract class Visual extends PApplet
 
 	private Minim minim;
 	private AudioInput ai;
-	protected AudioPlayer ap;
+	private AudioPlayer ap;
 	private AudioBuffer ab;
 	private FFT fft;
 
-	protected float amplitude  = 0;
+	private float amplitude  = 0;
 	private float smothedAmplitude = 0;
 
 	
@@ -26,8 +26,6 @@ public abstract class Visual extends PApplet
 	public void startMinim() 
 	{
 		minim = new Minim(this);
-		//ap = minim.loadFile("song.mp3", 1024);
-		loadAudio("song.mp3");
 
 		fft = new FFT(frameSize, sampleRate);
 
@@ -40,17 +38,17 @@ public abstract class Visual extends PApplet
 		return log(f) / log(2.0f);
 	}
 
-	public void calculateFFT() throws VisualException
+	protected void calculateFFT() throws VisualException
 	{
-		if (ab != null) {
-            fft.forward(ab);
-            for (int i = 0; i < fft.specSize(); i++) {
-                bands[i] = fft.getBand(i);
-                smoothedBands[i] = lerp(smoothedBands[i], bands[i], 0.05f);
-            }
-        } else {
-            throw new RuntimeException("Audio buffer is not available. Make sure to start listening or load an audio file first.");
-        }
+		fft.window(FFT.HAMMING);
+		if (ab != null)
+		{
+			fft.forward(ab);
+		}
+		else
+		{
+			throw new VisualException("You must call startListening or loadAudio before calling fft");
+		}
 	}
 
 	
@@ -61,7 +59,7 @@ public abstract class Visual extends PApplet
         {
 			total += abs(ab.get(i));
 		}
-		amplitude = total / ab.size(); //default
+		amplitude = total / ab.size();
 		smothedAmplitude = PApplet.lerp(smothedAmplitude, amplitude, 0.1f);
 	}
 
