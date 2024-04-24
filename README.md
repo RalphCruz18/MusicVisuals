@@ -11,6 +11,8 @@ Student Number: C22421292 & C22427602
 - There is an example visualiser called MyVisual in the example package
 - Check out the WaveForm and AudioBandsVisual for examples of how to call the Processing functions from other classes that are not subclasses of PApplet
 
+# Description of the assignment
+
 # Instructions
 Using keyboard keys ‘1’ and ‘2’ you can change scenes:
 !['1'](https://i.imgur.com/s2JUPJh.png)
@@ -28,10 +30,6 @@ Using keyboard keys ‘1’ and ‘2’ you can change scenes:
 
 ‘s’ enters “spam mode” on when scene 2 is active. Spam mode just calls the “sceneChange” function in SeanVisuals.java very fast.
 Not actually screenshotable because it uses motion and screenshots are freezeframes.
-
-# Description of the assignment
-
-# Instructions
 
 # How it works
 
