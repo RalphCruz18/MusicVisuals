@@ -21,6 +21,7 @@ public class RalphVisuals extends Visual {
     private float cameraSpeedMultiplier = 1.0f;
     private boolean sporadicMovement = false;
 
+
     // Method to set the parent PApplet
     public void setParent(PApplet parent) {
         this.parent = parent;
@@ -85,12 +86,12 @@ public class RalphVisuals extends Visual {
             float dynamicY = star.y + bopAmplitude * sin(parent.frameCount/rate);
             float dynamicX = star.x; 
             float dynamicZ = star.z;
-            float size = 10 + 5 * sin(parent.frameCount / 40.0f);
+            float size = (amplitude * 50) + 5 * sin(parent.frameCount / 40.0f);
 
             if (sporadicMovement) {
-                dynamicY += parent.random(-50, 50);
-                dynamicY += parent.random(-50, 50); 
-                dynamicZ += parent.random(-50, 50); 
+                dynamicY += parent.random(-5, 50);
+                dynamicY += parent.random(-5, 50); 
+                dynamicZ += parent.random(-5, 50); 
                 size *= (1 + parent.random(-0.5f, 0.5f));
             }
 
@@ -108,6 +109,7 @@ public class RalphVisuals extends Visual {
             ((Visual)parent).calculateAverageAmplitude();
         }
         float amplitude = ((Visual)parent).getSmoothedAmplitude();
+        
         float yPosition = map(amplitude, 0, 1, parent.height * 0.9f, parent.height * 0.1f);
     
         if (parent.frameCount % 60 == 0) {
@@ -216,7 +218,7 @@ public class RalphVisuals extends Visual {
     }
 
     public void draw() {
-        // Check the current camera mode and adjust accordingly
+        // Check the current camera mode 
         if (cameraMode == 1) {
             // Static camera setup
             float fov = PApplet.PI / 3;
@@ -257,10 +259,7 @@ public class RalphVisuals extends Visual {
     public void mousePressed() {
         if (parent.mouseButton == PApplet.LEFT) {
             cameraMode = (cameraMode == 1) ? 2 : 1;
-            System.out.println("Camera mode toggled to: " + cameraMode);
         }
     }
 
-    
-    
 }

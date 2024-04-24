@@ -7,6 +7,7 @@ import processing.core.PMatrix3D;
 import java.util.ArrayList;
 import processing.core.PVector;
 
+
 public class Seno extends Visual {
     RalphVisuals Ralph;
     private boolean drawSphere = false;
@@ -115,7 +116,6 @@ public class Seno extends Visual {
     
         if (drawSphere) {
             Ralph.draw();
-            audioBands.render(Sean.bandColor);
         }
         else if (drawCube) {
             Sean.draw(); 
@@ -156,13 +156,12 @@ public class Seno extends Visual {
     }
 
     public void keyPressed() {
-        println("Key pressed: " + key);  //Debug output to check key press
         switch(key) {
             case '1': //Scene 1
                 currentScene = 1;
                 drawSphere = true;  //Enable drawing the sphere
                 drawCube = false;
-                Ralph.addStars(200); //commented out while testing cause too many fricking stars bro
+                Ralph.addStars(200);
                 break;
                 case 'q': // Increase sphere size
                     Ralph.increaseSphereSize();

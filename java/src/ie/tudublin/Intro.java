@@ -28,7 +28,7 @@ public class Intro extends Visual {
         colorMode(HSB, 360, 100, 100);
         //noCursor();
 
-        textSize(270); // Set the text size for width calculation
+        textSize(300); // Set the text size for width calculation
 
         float textWidthNO = textWidth("NO");
         nX = width + textWidthNO; // Start "NO" off-screen to the right
