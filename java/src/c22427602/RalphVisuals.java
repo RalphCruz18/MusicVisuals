@@ -71,7 +71,8 @@ public class RalphVisuals extends Visual {
     }
 
     private void drawStars() {
-        float amplitude = parent instanceof Visual ? ((Visual)parent).getSmoothedAmplitude() : 0;
+        float smoothedamplitude = parent instanceof Visual ? ((Visual)parent).getSmoothedAmplitude() : 0;
+        float amplitude = parent instanceof Visual ? ((Visual)parent).getAmplitude() : 0;
         for (PVector star : stars) {
             parent.pushMatrix();
             parent.noStroke();
@@ -79,7 +80,7 @@ public class RalphVisuals extends Visual {
             float hue = (parent.frameCount * 10 + 360 * (star.x + parent.width) / (2 * parent.width)) % 360;
             // Brightness that cycles with frameCount, giving a pulsating effect
             float brightness = 100 + 155 * (0.5f * (1 + sin(parent.frameCount / 30.0f + star.y)));
-            float bopAmplitude = 30 * amplitude;
+            float bopAmplitude = 30 * smoothedamplitude;
             float rate = map(star.x, -parent.width, parent.width, 5.0f, 15.0f);
 
 
