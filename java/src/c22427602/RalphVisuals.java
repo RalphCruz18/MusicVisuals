@@ -32,6 +32,7 @@ public class RalphVisuals extends Visual {
         
     }
 
+    // Co ordinates of stars, prints multiple at different places
     public void addStars(int number) {
         for (int i = 0; i < number; i++) {
             float x = parent.random(-parent.width * 1.5f, parent.width * 1.5f);
@@ -56,12 +57,12 @@ public class RalphVisuals extends Visual {
     }
 
     public void increaseCameraSpeed() {
-        cameraSpeedMultiplier += 0.1; // Increment the speed multiplier
+        cameraSpeedMultiplier += 0.4; // Increment the speed multiplier
         System.out.println("Camera speed increased to: " + cameraSpeedMultiplier);
     }
 
     public void decreaseCameraSpeed() {
-        cameraSpeedMultiplier -= 0.1; 
+        cameraSpeedMultiplier -= 0.4; 
         System.out.println("Camera speed decreased to: " + cameraSpeedMultiplier);
     }
 
@@ -93,7 +94,7 @@ public class RalphVisuals extends Visual {
                 dynamicY += parent.random(-5, 50);
                 dynamicY += parent.random(-5, 50); 
                 dynamicZ += parent.random(-5, 50); 
-                size *= (1 + parent.random(-0.5f, 0.5f));
+                size *= (1 + parent.random(-0.5f, 0.5f) * 5);
             }
 
             parent.fill(parent.color(hue, 255, brightness, 128)); 
@@ -110,7 +111,6 @@ public class RalphVisuals extends Visual {
             ((Visual)parent).calculateAverageAmplitude();
         }
         float amplitude = ((Visual)parent).getSmoothedAmplitude();
-        
         float yPosition = map(amplitude, 0, 1, parent.height * 0.9f, parent.height * 0.1f);
     
         if (parent.frameCount % 60 == 0) {
@@ -133,7 +133,7 @@ public class RalphVisuals extends Visual {
     
         parent.pushMatrix();
         parent.translate(currentX, yPosition, -200);
-        parent.sphere(size*(amplitude*sphereSizeMultiplier));
+        parent.sphere(size*(amplitude*sphereSizeMultiplier*2));
         parent.popMatrix();
 
         addShell(currentX, yPosition, size + 20, 60, 160);  // Slightly larger than the sphere
