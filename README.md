@@ -103,6 +103,7 @@ public class Seno extends Visual {
 
 
 How Ralph's visuals work:
+This code block defines a method called drawSphere() used to render a dynamic, pulsating sphere in a 3D environment. It adjusts its vertical position and size based on audio input amplitude. The sphere's position horizontally interpolates between randomly chosen targets, creating a smooth transition effect. The hue and transparency of the sphere also change dynamically with the audio input. 
 ```Java
  private void drawSphere() {
         if (parent instanceof Visual) {
@@ -139,8 +140,8 @@ How Ralph's visuals work:
         angle += 0.05;
     }
 ```
-This code block defines a method called drawSphere() used to render a dynamic, pulsating sphere in a 3D environment. It adjusts its vertical position and size based on audio input amplitude. The sphere's position horizontally interpolates between randomly chosen targets, creating a smooth transition effect. The hue and transparency of the sphere also change dynamically with the audio input. 
 
+This code block adds two glowing halo layers around a sphere to create a visual effect of radiance or glow. It positions these layers in 3D space, adjusts their colours, and sets different transparency levels to enhance the visual level and depth.
 ``` Java
 private void addShell(float x, float y, float size, float hue, float alpha) {
 	parent.pushMatrix();
@@ -164,8 +165,8 @@ private void addShell(float x, float y, float size, float hue, float alpha) {
 	parent.popMatrix();
     }
 ```
-This code block adds two glowing halo layers around a sphere to create a visual effect of radiance or glow. It positions these layers in 3D space, adjusts their colours, and sets different transparency levels to enhance the visual level and depth.
 
+This code block creates a halo ring around a sphere, enhancing the 3D visual effect. It sets the ring's position and size based on input parameters, and applies a rotation based on a time-based interpolation to animate the ring's orientation. The ring is styled with specified colour and transparency, and rendered without fill to appear as a glowing outline.
 ```Java
 private void addHaloRing(float x, float y, float baseSize, float hue, float alpha) {
         parent.pushMatrix();
@@ -193,9 +194,8 @@ private void addHaloRing(float x, float y, float baseSize, float hue, float alph
         parent.popMatrix();
     }
 ```
-This code block creates a halo ring around a sphere, enhancing the 3D visual effect. It sets the ring's position and size based on input parameters, and applies a rotation based on a time-based interpolation to animate the ring's orientation. The ring is styled with specified colour and transparency, and rendered without fill to appear as a glowing outline.
 
-
+The code block is code to set the camera options between dynamic and static.
 ```Java
 public void draw() {
         // Check the current camera mode 
@@ -236,8 +236,8 @@ public void draw() {
         drawSphere();
     }
 ```
-The code block above is code to set the camera options between dynamic and static.
 
+This code block is designed to draw stars in a 3D space, where each star's colour, brightness, and position dynamically change based on sound amplitude and a timer. The stars pulse and move sporadically, simulating a twinkling effect. If the 'sporadicMovement' flag is enabled, the stars exhibit even more random motion and changes in size to create a more dynamic and lively visual scene.
 ```Java
 private void drawStars() {
         float smoothedamplitude = parent instanceof Visual ? ((Visual)parent).getSmoothedAmplitude() : 0;
@@ -274,9 +274,8 @@ private void drawStars() {
         }
     }
 ```
-This code block is designed to draw stars in a 3D space, where each star's colour, brightness, and position dynamically change based on sound amplitude and a timer. The stars pulse and move sporadically, simulating a twinkling effect. If the 'sporadicMovement' flag is enabled, the stars exhibit even more random motion and changes in size to create a more dynamic and lively visual scene.
 
-
+The code blocks above allow the different options a user can select that can alter movement of camera, speed and size of sphere and movement of stars.
 ```Java
 public void increaseSphereSize() {
         sphereSizeMultiplier += 0.5; // Increment the size multiplier
@@ -303,9 +302,8 @@ public void increaseSphereSize() {
         System.out.println("Sporadic movement toggled. Now set to: " + sporadicMovement);
     }
 ```
-The code blocks above allow the different options a user can select that can alter movement of camera, speed and size of sphere and movement of stars.
 
-
+This code block manages the loading and parsing of lyrics from an SRT (SubRip subtitle) file to synchronize them with an audio track. It reads the file line by line, extracting time codes and corresponding lyric text. Time codes determine when each lyric appears and disappears. These lyrics are stored in a list of Lyric objects, each containing the lyric text, start time, and end time. The method parseSrtTime() converts time strings from the SRT format into seconds for easier handling in the program.
 ```Java
 void loadLyrics() { //Load lyrics from srt file
         String[] lines = loadStrings("[Japanese] Renai Circulation「恋愛サーキュレーション」Kana Hanazawa [DownSub.com].srt");
@@ -357,7 +355,6 @@ void loadLyrics() { //Load lyrics from srt file
         }
     }
 ```
-This code block manages the loading and parsing of lyrics from an SRT (SubRip subtitle) file to synchronize them with an audio track. It reads the file line by line, extracting time codes and corresponding lyric text. Time codes determine when each lyric appears and disappears. These lyrics are stored in a list of Lyric objects, each containing the lyric text, start time, and end time. The method parseSrtTime() converts time strings from the SRT format into seconds for easier handling in the program.
 
 
 # What I am most proud of in the assignment
