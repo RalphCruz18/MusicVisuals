@@ -355,7 +355,8 @@ void loadLyrics() { //Load lyrics from srt file
         }
     }
 ```
-
+### Video Presentation:
+[![YouTube](https://github.com/RalphCruz18/MusicVisuals/assets/124162769/25872489-44ba-45bd-acb0-d35398082cf6)]([https://www.youtube.com/watch?v=J2kHSSFA4NU](https://youtu.be/QM3WlTiJYNk))
 
 # What I am most proud of in the assignment
 Sean Flood:\
@@ -363,74 +364,3 @@ I am most proud of making a scene that I beleive is fun to watch and interactabl
 \
 Ralph Cruz:\
 I'm very satisfied with how I effectively incorporated audio reactivity into the project's graphic features and visuality. The dynamic reaction of the images to the music not only adds to their aesthetic appeal, but also deeply engages the user. The ability to interact with the scene using keyboard and mouse instructions provides a degree of personalization, allowing users to explore and change the graphics in real time, resulting in a more immersive and enjoyable experience. This involvement, combined with the visual effects triggered by the music, elevates the program from a mere presentation to an interactive experience that engages and entertains.
-
-# Markdown Tutorial
-
-This is *emphasis*
-
-This is a bulleted list
-
-- Item
-- Item
-
-This is a numbered list
-
-1. Item
-1. Item
-
-This is a [hyperlink](http://bryanduggan.org)
-
-# Headings
-## Headings
-#### Headings
-##### Headings
-
-This is code:
-
-```Java
-public void render()
-{
-	ui.noFill();
-	ui.stroke(255);
-	ui.rect(x, y, width, height);
-	ui.textAlign(PApplet.CENTER, PApplet.CENTER);
-	ui.text(text, x + width * 0.5f, y + height * 0.5f);
-}
-```
-
-So is this without specifying the language:
-
-```
-public void render()
-{
-	ui.noFill();
-	ui.stroke(255);
-	ui.rect(x, y, width, height);
-	ui.textAlign(PApplet.CENTER, PApplet.CENTER);
-	ui.text(text, x + width * 0.5f, y + height * 0.5f);
-}
-```
-
-This is an image using a relative URL:
-
-![An image](images/p8.png)
-
-This is an image using an absolute URL:
-
-![A different image](https://bryanduggandotorg.files.wordpress.com/2019/02/infinite-forms-00045.png?w=595&h=&zoom=2)
-
-This is a youtube video:
-
-https://youtu.be/QM3WlTiJYNk
-[![YouTube]([https://www.youtube.com/watch?v=J2kHSSFA4NU](https://youtu.be/QM3WlTiJYNk))
-[![YouTube](http://img.youtube.com/vi/J2kHSSFA4NU/0.jpg)](https://www.youtube.com/watch?v=J2kHSSFA4NU)
-
-This is a table:
-
-| Heading 1 | Heading 2 |
-|-----------|-----------|
-|Some stuff | Some more stuff in this column |
-|Some stuff | Some more stuff in this column |
-|Some stuff | Some more stuff in this column |
-|Some stuff | Some more stuff in this column |
-
