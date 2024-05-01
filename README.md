@@ -360,6 +360,7 @@ void loadLyrics() { //Load lyrics from srt file
 # What I am most proud of in the assignment
 Sean Flood:\
 I am most proud of making a scene that I beleive is fun to watch and interactable in many ways which can keep the user entertained and interested. There are many objects that move based on the music which makes it visually apealing and being able to change the appearance using keyboard keys makes it interesting.
+\
 Ralph Cruz:\
 I'm very satisfied with how I effectively incorporated audio reactivity into the project's graphic features and visuality. The dynamic reaction of the images to the music not only adds to their aesthetic appeal, but also deeply engages the user. The ability to interact with the scene using keyboard and mouse instructions provides a degree of personalization, allowing users to explore and change the graphics in real time, resulting in a more immersive and enjoyable experience. This involvement, combined with the visual effects triggered by the music, elevates the program from a mere presentation to an interactive experience that engages and entertains.
 
