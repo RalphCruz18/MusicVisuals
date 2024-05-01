@@ -43,6 +43,10 @@ Pressing the key 'w' decreases the size.
 ![image](https://github.com/RalphCruz18/MusicVisuals/assets/124162769/2e4abb05-11b7-4261-a916-edb1f8bb4650)
 
 Pressing 2 causes the scene to change to Sean's Visuals.
+!['2'](https://i.imgur.com/7RC3WF0.png)
+Pressing 2 repeatedly changes the cubes order and the colors of stars, audio bands and spheres
+!['2 again'](https://i.imgur.com/lPGM8d2.png)
+!['2 again again'](https://i.imgur.com/l2kReYW.png)
 
 ‘ ‘ (spacebar) pauses and plays the song
 ![' '](https://i.imgur.com/J8qGTCL.png)
