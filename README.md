@@ -360,7 +360,7 @@ void loadLyrics() { //Load lyrics from srt file
     }
 ```
 ### Video Presentation:
-[![YouTube](https://github.com/RalphCruz18/MusicVisuals/assets/124162769/25872489-44ba-45bd-acb0-d35398082cf6)]([https://www.youtube.com/watch?v=J2kHSSFA4NU](https://youtu.be/QM3WlTiJYNk))
+[![YouTube](https://github.com/RalphCruz18/MusicVisuals/assets/124162769/25872489-44ba-45bd-acb0-d35398082cf6)](https://www.youtube.com/watch?v=QM3WlTiJYNk&ab_channel=BeroCollege))
 
 # What I am most proud of in the assignment
 Sean Flood:\
